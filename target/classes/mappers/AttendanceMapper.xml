@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.Init.mapper.AttendanceMapper">
+	<!-- 모든 시간 정보 조회 -->
+	<select id="getAllCheckTime"
+		resultType="com.Init.domain.AttendanceVO">
+		SELECT *
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+	</select>
+
+
+	<!-- 출근 기록 -->
+	<insert id="recordCheckIn" parameterType="String">
+
+		INSERT INTO attendance_ch (emp_id, check_in)
+		VALUES (#{emp_id}, NOW());
+
+	</insert>
+
+
+	<!-- 퇴근시간 -->
+	<update id="recordCheckout" parameterType="String">
+		UPDATE attendance_ch
+		SET check_out = NOW()
+		WHERE emp_id = #{emp_id}
+		AND check_in = (
+		SELECT check_in
+		FROM (
+		SELECT check_in
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+		AND check_in IS NOT NULL
+		ORDER BY check_in DESC
+		LIMIT 1
+		) AS latest
+		)
+		LIMIT 1;
+	</update>
+	<!-- 체크아웃이 NULL인 경우만 업데이트 -->
+
+	<!-- 최근 출근 확인 -->
+
+	<!-- emp_id에 대한 가장 최신의 출근 기록 중 퇴근 시간이 없는 기록 조회 (퇴근 시간은 조회하지 않음) -->
+	<select id="fetchLatestAttendanceRecord" parameterType="String"
+		resultType="com.Init.domain.AttendanceVO">
+		SELECT check_in
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+		AND check_in IS NOT NULL
+		ORDER BY check_in DESC
+		LIMIT 1
+	</select>
+
+	<!-- 최근 퇴근한시간 조회 -->
+	<select id="fetchLatestCheckOutRecord" parameterType="String"
+		resultType="com.Init.domain.AttendanceVO">
+		SELECT check_in,check_out
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+		ORDER BY check_in DESC
+		LIMIT 1
+	</select>
+
+	<!-- 근무 시간 계산 및 업데이트 -->
+	<update id="calculateAndUpdateWorkingTime"
+		parameterType="String">
+		UPDATE attendance_ch
+		SET working_time = TIMESTAMPDIFF(MINUTE, check_in, check_out)
+		WHERE emp_id = #{emp_id}
+		AND check_out IS NOT NULL;  <!-- 퇴근 시간이 존재하는 경우만 업데이트 -->
+	</update>
+
+	<select id="getWorkingTime" resultType="double">
+		SELECT working_time
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+		AND check_out IS NOT NULL
+		ORDER BY check_in DESC
+		LIMIT 1;
+	</select>
+
+	<select id="getAllCheckTimeWithPaging" parameterType="map"
+		resultType="com.Init.domain.AttendanceVO">
+		SELECT *
+		FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+		ORDER BY check_in DESC
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+
+
+	<select id="getTotalCheckTimeCount" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM attendance_ch
+		WHERE emp_id = #{emp_id}
+	</select>
+
+	<!-- 근태 기록 업데이트 -->
+	<update id="updateAttendanceRecord" parameterType="com.Init.domain.AttendanceVO">
+    UPDATE attendance_ch
+    <set>
+        <if test="check_in != null">check_in = #{check_in},</if>
+        <if test="check_out != null">check_out = #{check_out},</if>
+        <if test="workingOutside_time != null">workingOutside_time = #{workingOutside_time},</if>
+        <if test="return_time != null">return_time = #{return_time},</if>
+        <if test="working_time != null">working_time = #{working_time},</if>
+        <if test="night_work_time != null">night_work_time = #{night_work_time},</if>
+        <if test="special_working_time != null">special_working_time = #{special_working_time},</if>
+        <if test="modified_reason != null">modified_reason = #{modified_reason},</if>
+    </set>
+    WHERE attendance_id = #{attendance_id}
+</update>
+
+
+
+
+
+
+</mapper>

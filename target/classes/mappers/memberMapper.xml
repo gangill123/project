@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Init.mapper.MemberMapper">
+	
+	<!-- 시간정보 조회  -->
+  	<select id="getTime" resultType="string">
+  		select now()
+  	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember">
+		insert into employee(id,pw,name,birth,gender,tel,email,addr) 
+		values(#{id},#{pw},#{name},#{birth},#{gender},#{tel},#{email},#{addr})
+	</insert>
+	
+	<!-- 로그인 체크 -->
+  	<select id="loginMember" resultType="com.Init.domain.MemberVO">
+  		select * from employee 
+  		where id=#{id} 
+  		and pw=#{pw}
+  	</select>
+  	
+  	<!-- 회원정보 조회 -->
+  	<select id="getMember" resultType="com.Init.domain.MemberVO">
+  		select * from employee
+  		where id=#{id}
+  	</select>
+  	
+  	<!-- 비밀번호 체크  -->
+  	<select id="getPassword" resultType="String">
+        SELECT pw FROM employee WHERE id = #{id}
+    </select>
+  	
+  	<!-- 회원 정보 수정 -->
+	<update id="updateMember">
+	    update employee 
+	    set id=#{id}, name=#{name}, birth=#{birth}, gender=#{gender}, tel=#{tel}, email=#{email},
+	    addr=#{addr}, dnum=#{dnum}, position=#{position}, job_id=#{job_id}, status=#{status}, bnum=#{bnum},
+		work_type=#{work_type}, bank_name=#{bank_name}, account_num=#{account_num}, account_name=#{account_name}, start_date=#{start_date}	    
+	     
+	    where id=#{id}
+	</update>
+
+	<!-- 수정 이력 추가 -->
+	<insert id="insertHisMember">
+	    insert into his_employee (id, name, birth, gender, tel, email, addr, dnum, position, job_id, status, bnum,
+	    work_type, bank_name, account_num, account_name, start_date, update_date) 
+	    values (#{id}, #{name}, #{birth}, #{gender}, #{tel}, #{email}, #{addr}, #{dnum}, #{position}, #{job_id}, #{status}, 
+	    #{bnum}, #{work_type}, #{bank_name}, #{account_num}, #{account_name}, #{start_date}, now())
+	</insert>
+  	
+  	<!-- 회원정보 삭제  -->
+  	<delete id="deleteMember">
+  		delete from employee
+  		where id=#{id} and pw=#{pw} 
+  	
+  	</delete>
+  	
+  	<!-- 회원정보 목록조회 -->
+  	<select id="getMemberList" resultType="com.Init.domain.MemberVO">
+  		select * from employee
+  	</select>
+	
+</mapper>
