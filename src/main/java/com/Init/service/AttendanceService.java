@@ -35,5 +35,7 @@ public interface AttendanceService {
 	public int getTotalCheckTimeCount(String emp_id);
 
 	void updateAttendanceRecord(AttendanceVO attendanceVO);
+	
+	
 
 }

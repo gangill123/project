@@ -12,8 +12,6 @@ public interface LeaveService {
 
 	void updateLeave(int leave_id, LeaveVO leaveData);
 
-	public List<LeaveVO> findLeaves(String emp_id,int currentPage, int size);
-
-	public int getTotalLeavesCount(String emp_id);
+	void deleteLeave(int leave_id);
 
 }

@@ -21,7 +21,7 @@
 	</select>
 
 
-
+<!--업데이트  -->
 	<update id="updateLeave" parameterType="com.Init.domain.LeaveVO">
 		UPDATE leave_management
 		SET leave_type = #{leave_type},
@@ -41,22 +41,21 @@
 		total_leave_days = #{total_leave_days},
 		used_leave = #{used_leave},
 		remaining_leave = #{remaining_leave}
+		
+		
+		
 		WHERE leave_id = #{leave_id}
 	</update>
-	<!--페이징 처리  -->
-	
-	<select id="findLeaves" parameterType="map" resultType="com.Init.domain.LeaveVO">
-    SELECT * FROM leave_management
-    ORDER BY leave_id
-    LIMIT #{size} OFFSET #{offset}
-	</select>
-	
-	
-	 <select id="getTotalLeavesCount" resultType="int">
-        SELECT COUNT(*) 
-        FROM leave_management
-        WHERE emp_id = #{emp_id}
-    </select>
+
+
+
+ <!-- 휴가 삭제 쿼리 -->
+    <delete id="deleteLeave" parameterType="int">
+        DELETE FROM leave_management WHERE leave_id = #{leave_id}
+    </delete>
+
+
+
 
 
 </mapper>

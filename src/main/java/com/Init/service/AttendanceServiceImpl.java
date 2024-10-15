@@ -10,16 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.Init.domain.AttendanceVO;
 import com.Init.persistence.AttendanceDAO;
-import com.Init.persistence.AttendanceDAOImpl;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
@@ -124,5 +114,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		attendanceDAO.updateAttendanceRecord(attendanceVO);
 		logger.debug("After updating attendance record.");
 	}
+	
+	
 
 }

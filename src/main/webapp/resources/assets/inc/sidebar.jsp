@@ -95,12 +95,12 @@
                   <ul class="nav nav-collapse">
                     <li>
                       <a href="<%= request.getContextPath() %>/leave/main">
-                        <span class="sub-item">휴가 관리(관리자)</span>
+                        <span class="sub-item">휴가 관리</span>
                       </a>
                     </li>
                     <li>
                       <a href="<%= request.getContextPath() %>/leave/mainAdmin">
-                        <span class="sub-item">휴가 관리</span>
+                        <span class="sub-item">휴가 관리(관리자)</span>
                       </a>
                     </li>
                   </ul>

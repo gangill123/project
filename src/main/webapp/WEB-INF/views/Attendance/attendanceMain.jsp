@@ -12,7 +12,7 @@
 <!--QR 라이브러리  -->
 
     
-   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     
     
@@ -81,55 +81,100 @@
         <div class="container">
           <div class="page-inner">
 <!------------------------------------------------------------------------------------------------------------------>
+  
+  
+  
+  
+  
   <h1>근태 관리</h1>
 	
 	
 	
 	
 	
-	
-    <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h1 class="text-2xl font-bold mb-6 text-center">사원 정보</h1>
-        <div class="flex justify-center mb-6">
-            <div class="w-32 h-32 bg-gray-200 rounded-md flex items-center justify-center">
-                <span class="text-gray-500">img</span>
-            </div>
-        </div>
-        <div class="space-y-4">
-            <div class="flex justify-between">
-                <span class="font-semibold">사원번호 :</span>
-                <span>${emp_id}</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-semibold">직책 :</span>
-                <span>Manager</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-semibold">부서:</span>
-                <span>HR</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="font-semibold">이름:</span>
-                <span>홍길동</span>
-            </div>
-	          <div class="flex justify-between">
-	    <span class="font-semibold">출근 시간:</span>
-	    <span>${checkInTime}</span>
-			</div>
-			
-            <div class="flex justify-between">
-                <span class="font-semibold">퇴근 시간:</span>
-                <span id="checkoutTimeDisplay">퇴근 시간 기록 없음</span>
-            </div>
-            
-            <div class="flex justify-between">
-                <span class="font-semibold">근무한 시간:</span>
-                <span id="workingTimeDisplay"> 근무한시간 기록 없음 </span>
-            </div>
-            
+<div class="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
+    <h1 class="text-3xl font-bold mb-6 text-center">사원 정보</h1>
+    <div class="flex justify-center mb-6">
+        <div class="w-40 h-40 bg-gray-200 rounded-md flex items-center justify-center">
+            <span class="text-gray-500">img</span>
         </div>
     </div>
-	
+    <div class="space-y-4">
+        <div class="flex justify-between">
+            <span class="font-semibold">사원번호 :</span>
+            <span>${emp_id}</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">직책 :</span>
+            <span>Manager</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">부서:</span>
+            <span>HR</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">이름:</span>
+            <span>홍길동</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">출근 시간:</span>
+            <span>${checkInTime}</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">퇴근 시간:</span>
+            <span id="checkoutTimeDisplay">퇴근 시간 기록 없음</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-semibold">근무한 시간:</span>
+            <span id="workingTimeDisplay">근무한시간 기록 없음</span>
+        </div>
+        
+		    <button id="calculateButton" class="btn btn-primary">오늘 내가 근무한 시간</button>
+		    
+		
+		<button id="checkoutButton" class="btn btn-primary">퇴근</button>
+		
+    </div>
+</div>
+   
+   
+  <div class="card-body">
+                    <div class="card-sub">
+                                      최근 내 근무 현황 (3일 이내)
+                    </div>
+                    <table class="table mt-3">
+                      <thead>
+                        <tr>
+                          <th scope="col">사원번호</th>
+                          <th scope="col">출근날짜</th>
+                          <th scope="col">퇴근날짜</th>
+                          <th scope="col">근무상태</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>${emp_id}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>${emp_id}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>${emp_id}</td>
+                          <td ></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+  
+   
    
 			<script>
 		    $(document).ready(function() {
@@ -181,11 +226,6 @@
 		    </script>
 
 		   
-		    <button id="calculateButton" class="btn btn-primary">오늘 내가 근무한 시간</button>
-		    
-		
-		<button id="checkoutButton" class="btn btn-primary">퇴근</button>
-		
 		<!-- 출퇴근   -->
 		
 
@@ -198,44 +238,42 @@
 
 
 
-<div class="max-w-2xl mx-auto p-6">
-    <div class="card-container flex justify-end">
-        <div class="space-y-6">
-            <!-- 카드 1 -->
-            <div class="bg-white p-6 rounded-lg shadow-md card" onclick="openModal('modal1')">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl">👩‍💼</span>
-                    <h2 class="ml-2 text-xl font-bold">나의 출퇴근 시간 조회</h2>
-                </div>
-                <p class="text-gray-600">나의 기본근무시간을 확인하세요.</p>
+<div class="">
+    <div>
+        <!-- 카드 1 -->
+        <div class="bg-white p-8 rounded-lg shadow-md card mb-4" onclick="openModal('modal1')">
+            <div class="flex items-center mb-4">
+                <span class="text-2xl">👩‍💼</span>
+                <h2 class="ml-2 text-xl font-bold">나의 출퇴근 시간 조회</h2>
             </div>
+            <p class="text-gray-600">나의 기본근무시간을 확인하세요.</p>
+        </div>
 
-            <!-- 카드 2 -->
-            <div class="bg-white p-6 rounded-lg shadow-md card" onclick="openModal('modal2')">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl">🔥</span>
-                    <h2 class="ml-2 text-xl font-bold">초과 근무시간 조회</h2>
-                </div>
-                <p class="text-gray-600">초과, 야간, 특근 등의 초과근무시간을 확인하세요.</p>
+        <!-- 카드 2 -->
+        <div class="bg-white p-8 rounded-lg shadow-md card mb-4" onclick="openModal('modal2')">
+            <div class="flex items-center mb-4">
+                <span class="text-2xl">🔥</span>
+                <h2 class="ml-2 text-xl font-bold">초과 근무시간 조회</h2>
             </div>
+            <p class="text-gray-600">초과, 야간, 특근 등의 초과근무시간을 확인하세요.</p>
+        </div>
 
-            <!-- 카드 3 -->
-            <div class="bg-white p-6 rounded-lg shadow-md card" onclick="openModal('modal3')">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl">🏃‍♂️</span>
-                    <h2 class="ml-2 text-xl font-bold">휴직 신청서 <span class="text-red-500 text-sm">NEW</span></h2>
-                </div>
-                <p class="text-gray-600">휴직 신청을 할 수 있습니다.</p>
+        <!-- 카드 3 -->
+        <div class="bg-white p-8 rounded-lg shadow-md card mb-4" onclick="openModal('modal3')">
+            <div class="flex items-center mb-4">
+                <span class="text-2xl">🏃‍♂️</span>
+                <h2 class="ml-2 text-xl font-bold">휴직 신청서 <span class="text-red-500 text-sm">NEW</span></h2>
             </div>
+            <p class="text-gray-600">휴직 신청을 할 수 있습니다.</p>
+        </div>
 
-            <!-- 카드 4 -->
-            <div class="bg-white p-6 rounded-lg shadow-md card" onclick="openModal('modal4')">
-                <div class="flex items-center mb-4">
-                    <span class="text-2xl">☂️</span>
-                    <h2 class="ml-2 text-xl font-bold">출퇴근 수정 요청서</h2>
-                </div>
-                <p class="text-gray-600">출/퇴근 시간 수정 요청을 할수있습니다.</p>
+        <!-- 카드 4 -->
+        <div class="bg-white p-8 rounded-lg shadow-md card mb-4" onclick="openModal('modal4')">
+            <div class="flex items-center mb-4">
+                <span class="text-2xl">☂️</span>
+                <h2 class="ml-2 text-xl font-bold">출퇴근 수정 요청서</h2>
             </div>
+            <p class="text-gray-600">출/퇴근 시간 수정 요청을 할 수 있습니다.</p>
         </div>
     </div>
 </div>

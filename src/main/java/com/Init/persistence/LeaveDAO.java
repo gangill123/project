@@ -21,4 +21,6 @@ public interface LeaveDAO {
 	List<LeaveVO> findLeaves(@Param("emp_id") String emp_id,@Param("size") int size, @Param("offset") int offset);
 
 	int getTotalLeavesCount(String emp_id);
+	
+	 void deleteLeave(int leave_id);
 }

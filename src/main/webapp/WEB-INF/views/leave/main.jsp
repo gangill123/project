@@ -7,17 +7,23 @@
 <meta charset="UTF-8"> <!-- 한글 인코딩 추가 -->
 
    
-  
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+   
+   
+   
    
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveMain.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveStyle.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
    
+    
+     
+    
+    
+    
+    
+     
     <script src="${pageContext.request.contextPath }/resources/assets/js/plugin/webfont/webfont.min.js"></script>
-    
-     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -44,20 +50,16 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/demo.css" />
   </head>
-<body>
-  
+  <body>
     <div class="wrapper">
-        <%@ include file="/resources/assets/inc/sidebar.jsp" %> <!-- sidebar -->
-        <div class="main-panel">
-            <div class="main-header">
-                <%@ include file="/resources/assets/inc/logo_header.jsp" %> <!-- Logo Header -->
-                <%@ include file="/resources/assets/inc/navbar.jsp" %> <!-- Navbar Header -->
-            </div>
-            <div class="container">
-                <div class="page-inner">
-                    <div id='calendar'></div>
-                    <div id='popup' style="width:500px; height:600px; display:none; background-color:white; padding:20px; border-radius:14px; border:2px solid #eeeeee"></div>
-                </div>
+      <%@ include file="/resources/assets/inc/sidebar.jsp" %> <!-- sidebar -->
+      <div class="main-panel">
+        <div class="main-header">
+          <%@ include file="/resources/assets/inc/logo_header.jsp" %> <!-- Logo Header -->
+          <%@ include file="/resources/assets/inc/navbar.jsp" %> <!-- Navbar Header -->
+        </div>
+        <div class="container">
+          <div class="page-inner">
                 
                 <!-- page-inner -->
 <!------------------------------------------------------------------------------------------------------------------>
@@ -210,7 +212,7 @@
           <!-- page-inner -->
         </div>
 		<!-- container -->
-        <%@ include file="/resources/assets/inc/footer.jsp" %>
+<%--         <%@ include file="/resources/assets/inc/footer.jsp" %> --%>
       </div>
       <!-- main-panel -->
     </div>
@@ -280,5 +282,6 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
+    
   </body>
 </html>

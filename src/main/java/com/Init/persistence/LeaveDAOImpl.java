@@ -43,16 +43,25 @@ public class LeaveDAOImpl implements LeaveDAO {
 
 	@Override
 	public List<LeaveVO> findLeaves(String emp_id, int size, int offset) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("emp_id", emp_id);
-	    params.put("size", size);
-	    params.put("offset", offset);
-	    return sqlSession.selectList(NAMESPACE + ".findLeaves", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("emp_id", emp_id);
+		params.put("size", size);
+		params.put("offset", offset);
+		return sqlSession.selectList(NAMESPACE + ".findLeaves", params);
 	}
 
 	@Override
 	public int getTotalLeavesCount(String emp_id) {
 		return sqlSession.selectOne(NAMESPACE + ".getTotalLeavesCount", emp_id);
 	}
+
+	@Override
+	public void deleteLeave(int leave_id) {
+		  int affectedRows = sqlSession.delete(NAMESPACE + ".deleteLeave", leave_id);
+	        // affectedRows는 삭제된 행의 수입니다.
+	        if (affectedRows == 0) {
+	            throw new RuntimeException("삭제된 행이 없습니다.");
+	        }
+	    }
 
 }
