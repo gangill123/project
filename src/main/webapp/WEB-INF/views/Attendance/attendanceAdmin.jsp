@@ -9,13 +9,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Fonts and icons -->
-    
-    
-     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/kaiadmin.min.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/demo.css" />
-    
+  
     
      <style>
         #qrFrame {
@@ -88,7 +82,7 @@
     
     
      <title>Attendance Admin</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
