@@ -138,44 +138,54 @@
 </div>
    
    
-  <div class="card-body">
-                    <div class="card-sub">
-                                      최근 내 근무 현황 (3일 이내)
-                    </div>
-                    <table class="table mt-3">
-                      <thead>
-                        <tr>
-                          <th scope="col">사원번호</th>
-                          <th scope="col">출근날짜</th>
-                          <th scope="col">퇴근날짜</th>
-                          <th scope="col">근무상태</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>${emp_id}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>${emp_id}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>${emp_id}</td>
-                          <td ></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-  
-   
-   
+ <div class="container mt-5">
+        <h2 class="mb-4">최근 3일간 내 근무 현황</h2>
+        
+        <table class="table table-bordered" id="attendanceTable">
+            <thead>
+                <tr>
+                    <th scope="col">출근날짜</th>
+                    <th scope="col">퇴근날짜</th>
+                    <th scope="col">근무상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- AJAX로 데이터가 추가될 부분 -->
+            </tbody>
+        </table>
+    </div>
+    
+      <script>
+        $(document).ready(function() {
+            // 페이지가 로드될 때 출근 기록을 가져오는 AJAX 요청
+            $.ajax({
+                url: "fetchAttendanceRecords", // 컨트롤러의 메서드 URL
+                type: "GET",
+                success: function(attendanceList) {
+                    // 테이블에 출근 기록 추가
+                    var tableBody = $("#attendanceTable tbody");
+                    tableBody.empty(); // 기존 데이터 지우기
+                    attendanceList.forEach(function(attendance) {
+                        tableBody.append(
+                            "<tr>" +
+                            "<td>" + attendance.check_in + "</td>" +
+                            "<td>" + attendance.check_out + "</td>" +
+                            "<td>" + attendance.workform_status + "</td>" +
+                            "</tr>"
+                        );
+                    });
+                },
+                error: function() {
+                    alert("출근 기록을 가져오는 데 실패했습니다.");
+                }
+            });
+        });
+    </script>
+    
+    
+
+
+
 			<script>
 		    $(document).ready(function() {
 		        $('#checkoutButton').click(function() {

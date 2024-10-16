@@ -1,5 +1,6 @@
 package com.Init.service;
 
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -114,7 +115,15 @@ public class AttendanceServiceImpl implements AttendanceService {
 		attendanceDAO.updateAttendanceRecord(attendanceVO);
 		logger.debug("After updating attendance record.");
 	}
-	
-	
+
+	@Override
+	public boolean deleteAttendance(int attendance_id) {
+		return attendanceDAO.deleteAttendance(attendance_id) > 0;
+	}
+
+	  @Override
+	    public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id) {
+	        return attendanceDAO.selectRecentAttendanceRecords(emp_id);
+	    }
 
 }

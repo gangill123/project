@@ -13,5 +13,7 @@ public interface LeaveService {
 	void updateLeave(int leave_id, LeaveVO leaveData);
 
 	void deleteLeave(int leave_id);
+	
+	
 
 }

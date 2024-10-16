@@ -38,12 +38,18 @@ public interface AttendanceDAO {
 	void calculateAndUpdateWorkingTime(String emp_id);
 
 	double getWorkingTime(String emp_id);
+
+	// 페이징을 위한 새로운 메소드
+	List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size);
+
+	int getTotalCheckTimeCount(@Param("empId") String emp_id);
+
+	void updateAttendanceRecord(AttendanceVO attendanceVO);
+
+	int deleteAttendance(int attendance_id);
+
+	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id);
+
 	
-	  // 페이징을 위한 새로운 메소드
-    List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size);
-    
-    int getTotalCheckTimeCount(@Param("empId") String emp_id);
-    
-    void updateAttendanceRecord(AttendanceVO attendanceVO);
-  
+
 }

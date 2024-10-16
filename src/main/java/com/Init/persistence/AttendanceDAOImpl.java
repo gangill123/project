@@ -92,36 +92,48 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		// 퇴근 기록만 조회하는 쿼리 실행
 		return sqlSession.selectOne(NAMESPACE + ".fetchLatestCheckOutRecord", emp_id);
 	}
-		
+
 	@Override
 	public void calculateAndUpdateWorkingTime(String emp_id) {
-        sqlSession.update(NAMESPACE + ".calculateAndUpdateWorkingTime", emp_id);
-    }
+		sqlSession.update(NAMESPACE + ".calculateAndUpdateWorkingTime", emp_id);
+	}
+
 	@Override
 	public double getWorkingTime(String emp_id) {
 		return sqlSession.selectOne(NAMESPACE + ".getWorkingTime", emp_id);
-		
-	}
-	
-	 // 페이징을 위한 새로운 메소드 구현
-    @Override
-    public List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("emp_id", emp_id);
-        params.put("offset", offset);
-        params.put("size", size);
 
-        return sqlSession.selectList(NAMESPACE + ".getAllCheckTimeWithPaging", params);
-    }
+	}
+
+	// 페이징을 위한 새로운 메소드 구현
+	@Override
+	public List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("emp_id", emp_id);
+		params.put("offset", offset);
+		params.put("size", size);
+
+		return sqlSession.selectList(NAMESPACE + ".getAllCheckTimeWithPaging", params);
+	}
+
 	@Override
 	public int getTotalCheckTimeCount(String emp_id) {
 		// TODO Auto-generated method stub
-		 return sqlSession.selectOne(NAMESPACE + ".getTotalCheckTimeCount", emp_id);
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCheckTimeCount", emp_id);
 	}
-	 @Override
-	    public void updateAttendanceRecord(AttendanceVO attendanceVO) {
-		   logger.debug("Updating Attendance Record: " + attendanceVO);
-	        sqlSession.update(NAMESPACE+".updateAttendanceRecord", attendanceVO);
+
+	@Override
+	public void updateAttendanceRecord(AttendanceVO attendanceVO) {
+		logger.debug("Updating Attendance Record: " + attendanceVO);
+		sqlSession.update(NAMESPACE + ".updateAttendanceRecord", attendanceVO);
+	}
+
+	@Override
+	public int deleteAttendance(int attendance_id) {
+		return sqlSession.delete(NAMESPACE + ".deleteAttendance", attendance_id);
+	}
+
+	 public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id) {
+	        return sqlSession.selectList(NAMESPACE+".selectRecentAttendanceRecords", emp_id);
 	    }
-	
+
 }
