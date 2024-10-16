@@ -64,6 +64,18 @@
                 <!-- page-inner -->
 <!------------------------------------------------------------------------------------------------------------------>
 
+
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">근태관리</div>
+               
+ 
+                    
+
+
+
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto">
     <!-- 카드 1: 기본 근무시간 -->
     <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#basicWorkingHoursModal">
@@ -205,6 +217,14 @@
     </div>
 </div>
 
+
+
+ >
+               
+                    
+   </div>
+                  <div class="card-body">
+                    
    
 
 <!------------------------------------------------------------------------------------------------------------------>

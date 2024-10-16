@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Init.domain.AttendanceVO;
 import com.Init.service.AttendanceService;
@@ -70,7 +71,7 @@ public class AttendanceController {
 			if (latestCheckInData != null) {
 				model.addAttribute("checkInTime", formatTimestamp(latestCheckInData.getCheck_in()));
 			}
-			model.addAttribute("empId", emp_id);
+			model.addAttribute("emp_id", emp_id);
 		} else {
 			logger.debug("emp_id가 존재하지 않거나 비어 있습니다."); // 로그 추가 가능
 		}
@@ -95,12 +96,13 @@ public class AttendanceController {
 			attendanceService.recordCheckout(emp_id);
 			response.put("status", "success");
 			response.put("message", "퇴근 처리 완료");
+			return ResponseEntity.ok(response); // 성공 응답 반환
 		} else {
+			// 출근 기록이 없을 경우 오류 메시지를 설정하고 응답 반환
 			response.put("status", "error");
 			response.put("message", "출근 기록이 없습니다.");
+			return ResponseEntity.badRequest().body(response); // 400 Bad Request 반환
 		}
-
-		return ResponseEntity.ok(response);
 	}
 
 //    @GetMapping("/calculateWorkingTime")
@@ -224,34 +226,54 @@ public class AttendanceController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정 실패");
 		}
 	}
-	
-    @PostMapping("/deleteAttendance")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> deleteAttendance(@RequestParam("attendance_id") int attendance_id) {
-        boolean isDeleted = attendanceService.deleteAttendance(attendance_id);
-        
-        Map<String, String> response = new HashMap<>();
-        
-        if (isDeleted) {
-            response.put("message", "근태가 성공적으로 삭제되었습니다.");
-            return ResponseEntity.ok(response);
-        } else {
-            response.put("message", "근태 삭제에 실패했습니다.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-    }
-	
-    
-    
-    @GetMapping("/fetchAttendanceRecords")
-    @ResponseBody
-    public List<AttendanceVO> fetchRecentAttendanceRecords(HttpSession session) {
-        // 세션에서 emp_id 가져오기
-        String emp_id = (String) session.getAttribute("emp_id");
-        
-        // 최근 3일간 출근 기록을 조회하는 서비스 메서드 호출
-        return attendanceService.fetchRecentAttendanceRecords(emp_id);
-    }
+
+	@PostMapping("/deleteAttendance")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> deleteAttendance(@RequestParam("attendance_id") int attendance_id) {
+		boolean isDeleted = attendanceService.deleteAttendance(attendance_id);
+
+		Map<String, String> response = new HashMap<>();
+
+		if (isDeleted) {
+			response.put("message", "근태가 성공적으로 삭제되었습니다.");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("message", "근태 삭제에 실패했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	@GetMapping("/fetchAttendanceRecords")
+	@ResponseBody
+	public List<AttendanceVO> fetchRecentAttendanceRecords(HttpSession session) {
+		// 세션에서 emp_id 가져오기
+		String emp_id = (String) session.getAttribute("emp_id");
+
+		// 최근 3일간 출근 기록을 조회하는 서비스 메서드 호출
+		return attendanceService.fetchRecentAttendanceRecords(emp_id);
+	}
 	
 	
+	
+	@PostMapping("/checkin")
+	public ResponseEntity<String> checkIn(HttpSession session) {
+	    String emp_id = (String) session.getAttribute("emp_id"); // 세션에서 emp_id 가져오기
+
+	    if (emp_id == null || emp_id.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인되어 있지 않습니다.");
+	    }
+
+	    try {
+	        // 출근 처리 로직
+	        attendanceService.checkIn(emp_id); // emp_id를 통해 출근 처리
+	        return ResponseEntity.ok("출근 처리가 완료되었습니다.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("출근 기록 저장 실패: " + e.getMessage());
+	    }
+	}
+	
+	
+	
+	
+
 }

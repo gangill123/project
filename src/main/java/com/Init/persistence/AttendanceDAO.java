@@ -50,6 +50,12 @@ public interface AttendanceDAO {
 
 	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id);
 
+	void checkIn(String emp_id);
+
+	
+
+	void updateWorkformStatus(String emp_id, String workform_status);
+
 	
 
 }

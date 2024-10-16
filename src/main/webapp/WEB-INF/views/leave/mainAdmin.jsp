@@ -89,6 +89,12 @@
           <div class="page-inner">
 <!------------------------------------------------------------------------------------------------------------------>
 
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">근태관리</div>
+               
+
 <div class="card-body">
     <div class="table-responsive">
         <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -502,6 +508,10 @@ $(document).ready(function() {
 });
 </script>
 
+
+   </div>
+                  <div class="card-body">
+                    
 
 <!------------------------------------------------------------------------------------------------------------------>
           </div>

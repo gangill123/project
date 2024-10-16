@@ -44,11 +44,10 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 
 	}
 
-//	  // 출퇴근 QR 인식
-//	  @Override
-//	    public void checkIn(AttendanceVO attendance) {
-//	        sqlSession.insert(NAMESPACE + ".checkIn", attendance);
-//	    }
+	@Override
+	public void checkIn(String emp_id) {
+		sqlSession.insert(NAMESPACE + ".checkIn", emp_id);
+	}
 //
 //	    @Override
 //	    public void checkOut(AttendanceVO attendance) {
@@ -132,8 +131,15 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		return sqlSession.delete(NAMESPACE + ".deleteAttendance", attendance_id);
 	}
 
-	 public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id) {
-	        return sqlSession.selectList(NAMESPACE+".selectRecentAttendanceRecords", emp_id);
-	    }
+	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id) {
+		return sqlSession.selectList(NAMESPACE + ".selectRecentAttendanceRecords", emp_id);
+	}
+	
+	 public void updateWorkformStatus(String empId, String workformStatus) {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("emp_id", empId);
+	        params.put("workform_status", workformStatus);
 
+	        sqlSession.update(NAMESPACE+".updateWorkformStatus", params);
+	    }
 }

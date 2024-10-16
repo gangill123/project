@@ -106,6 +106,21 @@
         <div class="container">
           <div class="page-inner">
 <!------------------------------------------------------------------------------------------------------------------>
+  
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">근태관리</div>
+               
+                    
+                    
+
+
+
+
+
+
+
 <h1>사원 근태 관리</h1>
 <input type="text" id="emp_id" placeholder="사원 ID를 입력하세요" />
 <button id="checkTimeButton" class="btn btn-info">사원 조회</button>
@@ -563,6 +578,10 @@
 </script>
 
 
+                    
+   </div>
+                  <div class="card-body">
+                    
 <!------------------------------------------------------------------------------------------------------------------>
           </div>
           <!-- page-inner -->

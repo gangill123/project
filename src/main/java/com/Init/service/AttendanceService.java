@@ -39,4 +39,8 @@ public interface AttendanceService {
 	public boolean deleteAttendance(int attendance_id);
 
 	public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id);
+
+	void checkIn(String emp_id);
+
+	public void updateWorkformStatus(String emp_id, String workform_Status);
 }

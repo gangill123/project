@@ -1,6 +1,5 @@
 package com.Init.service;
 
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,13 +25,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceDAO.getAllCheckTime(emp_id);
 	}
 
-//	@Override
-//	public void checkIn(AttendanceVO attendance) {
-//	    // 출근 기록을 저장하는 로직
-//	    AttendanceVO checkIn = new AttendanceVO();
-//	    checkIn.setEmp_id(attendance.getEmp_id()); // attendance 객체에서 emp_id 가져오기
-//	    attendanceDAO.checkIn(checkIn);
-//	}
+	@Override
+	public void checkIn(String emp_id) {
+		// 출근 기록을 저장하는 로직
+
+		attendanceDAO.checkIn(emp_id);
+	}
 //
 //	@Override
 //	public void checkOut(AttendanceVO attendance) {
@@ -121,9 +119,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceDAO.deleteAttendance(attendance_id) > 0;
 	}
 
-	  @Override
-	    public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id) {
-	        return attendanceDAO.selectRecentAttendanceRecords(emp_id);
-	    }
+	@Override
+	public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id) {
+		return attendanceDAO.selectRecentAttendanceRecords(emp_id);
+	}
+
+	public void updateWorkformStatus(String emp_id, String workform_status) {
+		// DAO를 호출하여 근무 상태를 업데이트
+		attendanceDAO.updateWorkformStatus(emp_id, workform_status);
+	}
 
 }
