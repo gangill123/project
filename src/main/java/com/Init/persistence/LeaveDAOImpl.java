@@ -63,5 +63,10 @@ public class LeaveDAOImpl implements LeaveDAO {
 	            throw new RuntimeException("삭제된 행이 없습니다.");
 	        }
 	    }
+	
+	
+	public List<LeaveVO> selectLeaveInfo(String emp_id) {
+		return sqlSession.selectOne(NAMESPACE + ".getLeaveInfo",emp_id);
+    }
 
 }

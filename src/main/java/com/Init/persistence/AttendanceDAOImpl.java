@@ -8,12 +8,12 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 
 /*
  *  MemberDAO 동작을 수행
@@ -134,12 +134,28 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id) {
 		return sqlSession.selectList(NAMESPACE + ".selectRecentAttendanceRecords", emp_id);
 	}
-	
-	 public void updateWorkformStatus(String empId, String workformStatus) {
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("emp_id", empId);
-	        params.put("workform_status", workformStatus);
 
-	        sqlSession.update(NAMESPACE+".updateWorkformStatus", params);
-	    }
+	public void updateWorkformStatus(String empId, String workformStatus) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("emp_id", empId);
+		params.put("workform_status", workformStatus);
+
+		sqlSession.update(NAMESPACE + ".updateWorkformStatus", params);
+	}
+
+	@Override
+	public void insertOvertime(AttendanceVO attendanceVO) {
+		sqlSession.insert(NAMESPACE + ".insertOvertime", attendanceVO);
+	}
+	
+	@Override
+    public int updateWorkingOutsideTime(AttendanceVO attendanceVO) {
+        return sqlSession.update(NAMESPACE+".updateWorkingOutsideTime", attendanceVO);
+    }
+
+    @Override
+    public int updateReturnTime(AttendanceVO attendanceVO) {
+        return sqlSession.update(NAMESPACE+".updateReturnTime", attendanceVO);
+    }
+	
 }

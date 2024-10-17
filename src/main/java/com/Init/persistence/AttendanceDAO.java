@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 
 /*
  *  tbl_member 테이블의 데이터를 활용하는 동작을 정의
@@ -56,6 +57,13 @@ public interface AttendanceDAO {
 
 	void updateWorkformStatus(String emp_id, String workform_status);
 
-	
+	void insertOvertime(AttendanceVO attendanceVO);
+
+	  // 외출 시간 업데이트
+    int updateWorkingOutsideTime(AttendanceVO attendanceVO);
+    
+    // 복귀 시간 업데이트
+    int updateReturnTime(AttendanceVO attendanceVO);
+
 
 }

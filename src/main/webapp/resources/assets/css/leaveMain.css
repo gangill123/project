@@ -1,27 +1,11 @@
-
-/* 카드 요소 크기를 크게 조정 */
-.bg-white {
-    padding: 2rem; /* 패딩을 더 추가해서 크기 확장 */
-    min-height: 300px; /* 카드의 최소 높이 설정 */
-    width: 100%; /* 카드 너비를 확장 */
-    transition: transform 0.2s;
+.btn1 {
+    padding: 40px 130px; /* 상하 좌우 여백을 조정하여 버튼 크기 증가 */
+    font-size: 16px; /* 폰트 크기를 크게 설정 */
+    border-radius: 5px; /* 모서리를 둥글게 설정 (선택 사항) */
+    margin-left:  150px;
+    margin-bottom: 90px;
+    margin-top: 50px;
 }
-
-.bg-white:hover {
-    transform: scale(1.05); /* 마우스를 올릴 때 확대 효과 */
-}
-
-/* 아이콘 크기 조정 */
-.bg-white .text-6xl {
-    font-size: 5rem; /* 아이콘 크기를 더 크게 설정 */
-}
-
-/* 제목 크기 조정 */
-.bg-white h2 {
-    font-size: 2.5rem; /* 제목의 글씨 크기 확대 */
-}
-
-/* 설명 텍스트 크기 조정 */
-.bg-white p {
-    font-size: 1.2rem; /* 설명 텍스트 크기 확대 */
+.card-title{
+	font-size:20px;
 }

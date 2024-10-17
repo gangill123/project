@@ -13,7 +13,8 @@ public interface LeaveService {
 	void updateLeave(int leave_id, LeaveVO leaveData);
 
 	void deleteLeave(int leave_id);
-	
+
+	List<LeaveVO> getLeaveInfo(String emp_id);
 	
 
 }

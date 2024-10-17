@@ -23,4 +23,6 @@ public interface LeaveDAO {
 	int getTotalLeavesCount(String emp_id);
 	
 	 void deleteLeave(int leave_id);
+
+	 List<LeaveVO> selectLeaveInfo(String emp_id);
 }

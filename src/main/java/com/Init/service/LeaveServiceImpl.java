@@ -44,5 +44,11 @@ public class LeaveServiceImpl implements LeaveService {
 	public void deleteLeave(int leave_id) {
 		leaveDAO.deleteLeave(leave_id);
 	}
+	
+	
+	@Override
+	public List<LeaveVO> getLeaveInfo(String emp_id) {
+        return leaveDAO.selectLeaveInfo(emp_id);
+    }
 
 }

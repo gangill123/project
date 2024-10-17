@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Init.domain.AttendanceVO;
 import com.Init.service.AttendanceService;
@@ -60,6 +59,7 @@ public class AttendanceController {
 
 		if (emp_id != null && !emp_id.isEmpty()) {
 			// 세션에 emp_id 저장
+			// addFlashAtrribute ();
 			session.setAttribute("emp_id", emp_id);
 
 			// 출근 기록 삽입 (출근 시에만 실행)
@@ -252,28 +252,50 @@ public class AttendanceController {
 		// 최근 3일간 출근 기록을 조회하는 서비스 메서드 호출
 		return attendanceService.fetchRecentAttendanceRecords(emp_id);
 	}
-	
-	
-	
+
 	@PostMapping("/checkin")
 	public ResponseEntity<String> checkIn(HttpSession session) {
-	    String emp_id = (String) session.getAttribute("emp_id"); // 세션에서 emp_id 가져오기
+		String emp_id = (String) session.getAttribute("emp_id"); // 세션에서 emp_id 가져오기
 
-	    if (emp_id == null || emp_id.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인되어 있지 않습니다.");
-	    }
+		if (emp_id == null || emp_id.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인되어 있지 않습니다.");
+		}
 
-	    try {
-	        // 출근 처리 로직
-	        attendanceService.checkIn(emp_id); // emp_id를 통해 출근 처리
-	        return ResponseEntity.ok("출근 처리가 완료되었습니다.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("출근 기록 저장 실패: " + e.getMessage());
-	    }
+		try {
+			// 출근 처리 로직
+			attendanceService.checkIn(emp_id); // emp_id를 통해 출근 처리
+			return ResponseEntity.ok("출근 처리가 완료되었습니다.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("출근 기록 저장 실패: " + e.getMessage());
+		}
 	}
-	
-	
-	
-	
+
+	@PostMapping("/overtimeSubmit")
+	public ResponseEntity<String> submitOvertime(@RequestBody AttendanceVO attendanceVO) {
+		attendanceService.submitOvertime(attendanceVO);
+		return ResponseEntity.ok("연장 근무 신청이 성공적으로 제출되었습니다.");
+	}
+
+	@PostMapping("/outdoor")
+    @ResponseBody
+    public ResponseEntity<String> recordOutdoorTime(@RequestBody AttendanceVO attendanceVO) {
+        try {
+            attendanceService.updateWorkingOutsideTime(attendanceVO);
+            return new ResponseEntity<>("외출 시간이 기록되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("오류 발생: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/return")
+    @ResponseBody
+    public ResponseEntity<String> recordReturnTime(@RequestBody AttendanceVO attendanceVO) {
+        try {
+            attendanceService.updateReturnTime(attendanceVO);
+            return new ResponseEntity<>("복귀 시간이 기록되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("오류 발생: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
