@@ -66,7 +66,7 @@ public class LeaveDAOImpl implements LeaveDAO {
 	
 	
 	public List<LeaveVO> selectLeaveInfo(String emp_id) {
-		return sqlSession.selectOne(NAMESPACE + ".getLeaveInfo",emp_id);
+		return sqlSession.selectList(NAMESPACE + ".getLeaveInfo",emp_id);
     }
 
 }

@@ -5,12 +5,12 @@
 <html> <!-- html 태그 추가 -->
 <head>
 <meta charset="UTF-8"> <!-- 한글 인코딩 추가 -->
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    
    
    
    
-   
+  
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveMain.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveStyle.css" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -69,7 +69,10 @@
                   <div class="card-header">
                  <div class="card-title">휴가 관리</div>
 
-
+<% 
+    String empId = (String) session.getAttribute("emp_id");
+    out.println("Session emp_id: " + empId);
+%>
 
 				<button class="btn1 btn-primary">
 					<span class="btn-label"> <i class="fa fa-bookmark"></i>
@@ -146,7 +149,13 @@
 							aria-controls="basic-datatables" rowspan="1"
 							colspan="1"
 							aria-label="Office: activate to sort column ascending"
+							style="width: 187.375px;">총연차</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Office: activate to sort column ascending"
 							style="width: 187.375px;">자동소멸</th>
+							
 						<th class="sorting" tabindex="0"
 							aria-controls="basic-datatables" rowspan="1"
 							colspan="1"
@@ -164,76 +173,23 @@
 							style="width: 156.047px;">잔여</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<th rowspan="1" colspan="1"></th>
-								<th rowspan="1" colspan="1"></th>
-								<th rowspan="1" colspan="1"></th>
-								<th rowspan="1" colspan="1"></th>
-								<th rowspan="1" colspan="1"></th>
-								<th rowspan="1" colspan="1"></th>
-							</tr>
-						</tfoot>
-						<tbody>
+						
+						
+					
+						
+							<tbody id="leaveTableBody">
 
-				
-<!-- 연차 소멸 부여 자동 테이블  -->
-<!-- 							<tr role="row" class="odd"> -->
-<!-- 								<td class="sorting_1"></td> -->
-					 <c:forEach var="leave" items="${leaveInfo}">
-            <tr role="row" class="odd">
-                <td class="sorting_1">${leave.adjustmentDate}</td>
-                <td class="sorting_1">${leave.Lgrant}</td>
-                <td class="sorting_1">${leave.expiry}</td>
-                <td class="sorting_1">${leave.adjustment}</td> <!-- 조정 필드 -->
-                <td class="sorting_1">${leave.used_annual_leave}</td>
-                <td class="sorting_1">${leave.remaining_annual_leave}</td>
-            </tr>
-        </c:forEach>
-	
+
 					
 						</tbody>
+						
+						
+						
+						
 					</table>
 					
 					
-	<script>
 	
-	$.ajax({
-	    url: 'getLeaveInfo',
-	    method: 'GET',
-	    contentType: 'application/json', // 명시적으로 설정
-	    success: function(data) {
-	        if (data.length > 0) {
-	            data.forEach(function(leave) {
-	                var row = '<tr>' +
-	                    '<td>' + leave.adjustmentDate + '</td>' +
-	                    '<td>' + leave.Lgrant + '</td>' +
-	                    '<td>' + leave.expiry + '</td>' +
-	                    '<td>' + (leave.adjustment ? leave.adjustment : '') + '</td>' +
-	                    '<td>' + leave.used_annual_leave + '</td>' +
-	                    '<td>' + leave.remaining_annual_leave + '</td>' +
-	                    '</tr>';
-	                $('#leaveTable tbody').append(row);
-	            });
-	        } else {
-	            alert('휴가 정보가 없습니다.');
-	        }
-	    },
-	    error: function() {
-	        alert('서버 요청에 실패했습니다.');
-	    }
-	});
-</script>
-
-
-
-					
-					
-					
-					
-					
-					
-					
 					
 				</div>
 			</div>
@@ -282,14 +238,58 @@
 </div>
 
 
+<script>
+    $(document).ready(function() {
+        // 페이지가 로드될 때 연차 정보를 가져오는 AJAX 요청
+        $.ajax({
+            url: 'getLeaveInfo', // API 경로
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data); // 데이터를 확인하기 위한 로깅
+                $('#leaveTableBody').empty(); // 기존 내용을 지우고 새로운 내용을 추가
+
+                // 데이터가 없을 경우
+                if (data.length === 0) {
+                    $('#leaveTableBody').append('<tr><td colspan="7">연차 정보가 없습니다. 로그인 상태를 확인해주세요.</td></tr>');
+                } else {
+                    // 데이터가 있을 경우
+                    data.forEach(function(leave) {
+                        // 각 leave 정보의 필드를 적절하게 사용하여 테이블 행을 추가
+                    	$('#leaveTableBody').append(
+                    		    '<tr>' +
+                    		        '<td>' + (leave.adjustmentDate || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.Lgrant || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.total_annual_leave || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.expiry || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.adjustment || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.used_annual_leave || 'N/A') + '</td>' +
+                    		        '<td>' + (leave.remaining_annual_leave || 'N/A') + '</td>' +
+                    		    '</tr>'
+                    		);
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                $('#leaveTableBody').html('<tr><td colspan="7">데이터를 가져오는 중 오류가 발생했습니다.</td></tr>');
+            }
+        });
+    });
+</script>
+					
+					
+
+
 
 </div>
                   <div class="card-body">
                     
    
+          				</div>	
 
 <!------------------------------------------------------------------------------------------------------------------>
-          
+   
           <!-- page-inner -->
         </div>
 		<!-- container -->

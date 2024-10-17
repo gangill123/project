@@ -61,32 +61,32 @@
 	<!-- 휴가 메인 페이지에 뿌려주는 쿼리 -->
 	<select id="getLeaveInfo" parameterType="String"
 		resultType="com.Init.domain.LeaveVO">
-		SELECT
-		lm.leave_id,
-		lm.emp_id,
-		lm.leave_type,
-		lm.leave_start_date,
-		lm.t_leave,
-		lm.annual_leave,
-		lm.annual_leave_start_date,
-		lm.end_annual_leave,
-		lm.total_annual_leave,
-		lm.used_annual_leave,
-		lm.remaining_annual_leave,
-		lm.Lgrant,
-		lm.expiry,
-		lm.adjustmentDate,
-		lm.end_leave_date,
-		lm.leave_status,
-		lm.approval_date,
-		lm.reason,
-		lm.requested_at,
-		lm.total_leave_days,
-		lm.used_leave,
-		lm.remaining_leave
-		FROM leave_management lm
-		JOIN employee e ON lm.emp_id = e.emp_id
-		WHERE e.emp_id = #{emp_id} 
+ SELECT lm.leave_id,
+           lm.emp_id,
+           lm.leave_type,
+           lm.leave_start_date,
+           lm.t_leave,
+           lm.annual_leave,
+           lm.annual_leave_start_date,
+           lm.end_annual_leave,
+           lm.total_annual_leave,
+           lm.used_annual_leave,
+           lm.remaining_annual_leave,
+           lm.Lgrant,
+           lm.expiry,
+           lm.adjustment,
+           lm.adjustmentDate,
+           lm.end_leave_date,
+           lm.leave_status,
+           lm.approval_date,
+           lm.reason,
+           lm.requested_at,
+           lm.total_leave_days,
+           lm.used_leave,
+           lm.remaining_leave
+    FROM leave_management lm
+    INNER JOIN employee e ON lm.emp_id = e.emp_id
+    WHERE e.emp_id = #{emp_id}
 	</select>
 
 

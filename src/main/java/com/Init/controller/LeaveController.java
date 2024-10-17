@@ -1,7 +1,6 @@
 package com.Init.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,17 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.Init.domain.LeaveVO;
 import com.Init.service.LeaveService;
 
-
 @Controller
 @RequestMapping(value = "/leave/*")
 public class LeaveController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
-	
+
 	@Autowired
 	private LeaveService leaveService;
-	
-	
+
 	// 템플릿 적용 확인
 	// http://localhost:8088/leave/main
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -46,78 +43,117 @@ public class LeaveController {
 		return "leave/main";
 
 	}
-	
-		// http://localhost:8088/leave/mainAdmin
-		@RequestMapping(value = "/mainAdmin", method = RequestMethod.GET)
-		public String AdminMainPage() {
-			logger.debug(" /main -> AdminMainPage() 실행");
-			logger.debug(" /views/leave/mainAdmin.jsp 뷰페이지 연결");
 
-			return "leave/mainAdmin";
+	// http://localhost:8088/leave/mainAdmin
+	@RequestMapping(value = "/mainAdmin", method = RequestMethod.GET)
+	public String AdminMainPage() {
+		logger.debug(" /main -> AdminMainPage() 실행");
+		logger.debug(" /views/leave/mainAdmin.jsp 뷰페이지 연결");
 
+		return "leave/mainAdmin";
+
+	}
+
+	// 사원 ID로 휴가 조회
+	@GetMapping("/leaveSelect")
+	public ResponseEntity<List<LeaveVO>> getAllLeaves(@RequestParam String emp_id) {
+		logger.debug("사원 ID로 휴가 조회: " + emp_id);
+		List<LeaveVO> leaves = leaveService.getAllLeaves(emp_id);
+		return ResponseEntity.ok(leaves);
+	}
+
+	// 휴가 수정 정보를 가져오기
+	@GetMapping("/selectUpdate") // 오타 수정: 'seletUpdate' -> 'selectUpdate'
+	public ResponseEntity<LeaveVO> getLeaveById(@RequestParam int leave_id) {
+		LeaveVO leave = leaveService.getLeaveById(leave_id);
+		return ResponseEntity.ok(leave);
+	}
+
+	// 휴가 정보 수정
+	@PostMapping("/leaveUpdate")
+	public ResponseEntity<Map<String, Object>> updateLeave(@RequestParam int leave_id, @RequestBody LeaveVO leaveData) {
+		Map<String, Object> response = new HashMap<>();
+
+		// 유효성 검사 (예시)
+		if (leaveData == null || leave_id <= 0) {
+			response.put("success", false);
+			return ResponseEntity.badRequest().body(response); // 잘못된 요청
 		}
+
+		try {
+			leaveService.updateLeave(leave_id, leaveData);
+			response.put("success", true); // 성공적으로 업데이트됨
+			return ResponseEntity.ok(response); // 성공 응답
+		} catch (Exception e) {
+			e.printStackTrace(); // 에러 로그
+			response.put("success", false); // 실패
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // 서버 오류
+		}
+	}
+
+	// 휴가 삭제 메서드
+	@PostMapping("/leaveDelete")
+	public ResponseEntity<?> deleteLeave(@RequestParam("leave_id") int leave_id) {
+		try {
+			leaveService.deleteLeave(leave_id);
+			return ResponseEntity.ok().body("{\"success\": true}");
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("{\"success\": false}");
+		}
+	}
+
+	@GetMapping("/getLeaveInfo")
+	@ResponseBody
+	public List<LeaveVO> getLeaveInfo(HttpSession session) {
+		String emp_id = (String) session.getAttribute("emp_id");
+
+		// 서비스 호출하여 데이터 조회
+		List<LeaveVO> leaveInfo = leaveService.getLeaveInfo(emp_id);
+		logger.debug("서비스에서 반환된 leaveInfo: " + leaveInfo);
+
+		return leaveInfo;
+	}
 	
-		   // 사원 ID로 휴가 조회
-	    @GetMapping("/leaveSelect")
-	    public ResponseEntity<List<LeaveVO>> getAllLeaves(@RequestParam String emp_id) {
-	        logger.debug("사원 ID로 휴가 조회: " + emp_id);
-	        List<LeaveVO> leaves = leaveService.getAllLeaves(emp_id);
-	        return ResponseEntity.ok(leaves);
-	    }
-
-	    // 휴가 수정 정보를 가져오기
-	    @GetMapping("/selectUpdate") // 오타 수정: 'seletUpdate' -> 'selectUpdate'
-	    public ResponseEntity<LeaveVO> getLeaveById(@RequestParam int leave_id) {
-	        LeaveVO leave = leaveService.getLeaveById(leave_id);
-	        return ResponseEntity.ok(leave);
-	    }
-
-	    // 휴가 정보 수정
-	    @PostMapping("/leaveUpdate")
-	    public ResponseEntity<Map<String, Object>> updateLeave(@RequestParam int leave_id, @RequestBody LeaveVO leaveData) {
-	        Map<String, Object> response = new HashMap<>();
-
-	        // 유효성 검사 (예시)
-	        if (leaveData == null || leave_id <= 0) {
-	            response.put("success", false);
-	            return ResponseEntity.badRequest().body(response); // 잘못된 요청
-	        }
-
-	        try {
-	            leaveService.updateLeave(leave_id, leaveData);
-	            response.put("success", true); // 성공적으로 업데이트됨
-	            return ResponseEntity.ok(response); // 성공 응답
-	        } catch (Exception e) {
-	            e.printStackTrace(); // 에러 로그
-	            response.put("success", false); // 실패
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // 서버 오류
-	        }
-	    }
 	
-	    
-	    // 휴가 삭제 메서드
-	    @PostMapping("/leaveDelete")
-	    public ResponseEntity<?> deleteLeave(@RequestParam("leave_id") int leave_id) {
-	        try {
-	            leaveService.deleteLeave(leave_id);
-	            return ResponseEntity.ok().body("{\"success\": true}");
-	        } catch (Exception e) {
-	            return ResponseEntity.status(500).body("{\"success\": false}");
-	        }
-	    }
-	    
-	    @GetMapping("/getLeaveInfo")
-	    @ResponseBody
-	    public List<LeaveVO> getLeaveInfo(HttpSession session) {
-	        String emp_id = (String) session.getAttribute("emp_id");
-
-	        // emp_id가 없으면 빈 리스트 반환
-	        if (emp_id == null) {
-	            return new ArrayList<>(); // 비어있는 리스트 반환
-	        }
-
-	        // 서비스 호출하여 데이터 조회
-	        return leaveService.getLeaveInfo(emp_id);
-	    }
 	
+	
+	
+	
+	
+	 // 연차 부여
+    @PostMapping("/grant")
+    public String grantLeave(@RequestBody LeaveVO leaveVO) {
+        leaveService.grantAnnualLeave(leaveVO);
+        return "총 연차: " + leaveVO.getTotal_annual_leave() + ", 잔여 연차: " + leaveVO.getRemaining_annual_leave();
+    }
+
+    // 연차 사용
+    @PostMapping("/use")
+    public String useLeave(@RequestBody LeaveVO leaveVO, @RequestParam int days) {
+        try {
+            leaveService.useAnnualLeave(leaveVO, days);
+            return "사용된 연차: " + leaveVO.getUsed_annual_leave() + ", 잔여 연차: " + leaveVO.getRemaining_annual_leave();
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+    }
+
+    // 연차 소멸 처리
+    @PostMapping("/expiry")
+    public String handleExpiry(@RequestBody LeaveVO leaveVO) {
+        leaveService.handleExpiry(leaveVO);
+        return "소멸 후 잔여 연차: " + leaveVO.getRemaining_annual_leave();
+    }
+
+    // 연차 조정
+    @PostMapping("/adjust")
+    public String adjustLeave(@RequestBody LeaveVO leaveVO, @RequestParam int adjustment) {
+        leaveService.adjustAnnualLeave(leaveVO, adjustment);
+        return "조정 후 총 연차: " + leaveVO.getTotal_annual_leave() + ", 잔여 연차: " + leaveVO.getRemaining_annual_leave();
+    }
+	
+    
+    
+	
+
 }

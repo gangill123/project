@@ -16,5 +16,12 @@ public interface LeaveService {
 
 	List<LeaveVO> getLeaveInfo(String emp_id);
 	
-
+	public void grantAnnualLeave(LeaveVO leaveVO);
+	
+	public void useAnnualLeave(LeaveVO leaveVO, int days);
+	
+	public void handleExpiry(LeaveVO leaveVO);
+	
+	public void adjustAnnualLeave(LeaveVO leaveVO, int adjustment);
+	
 }
