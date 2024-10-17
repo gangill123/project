@@ -22,8 +22,9 @@ public class AttendanceVO {
     
     private String status;
     
-    private int overtime;
-    private Timestamp created_at;
+    private int overtime; 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp created_at; //신청일
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp new_check_in;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -33,11 +34,11 @@ public class AttendanceVO {
     
     private int working_time;
     private int night_work_time;
-    private int special_working_time;
+    private int special_working_time; 
     
-    private String modified_reason;
+    private String modified_reason; //신청이유
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp modified_time;
+    private Timestamp modified_time; 
     
     private String modified_person;
     private String workform_status;

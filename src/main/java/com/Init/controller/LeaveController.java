@@ -1,9 +1,12 @@
 package com.Init.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Init.domain.LeaveVO;
 import com.Init.service.LeaveService;
@@ -101,11 +105,19 @@ public class LeaveController {
 	            return ResponseEntity.status(500).body("{\"success\": false}");
 	        }
 	    }
-	 
+	    
+	    @GetMapping("/getLeaveInfo")
+	    @ResponseBody
+	    public List<LeaveVO> getLeaveInfo(HttpSession session) {
+	        String emp_id = (String) session.getAttribute("emp_id");
 
-	
-	
-	
-	
+	        // emp_id가 없으면 빈 리스트 반환
+	        if (emp_id == null) {
+	            return new ArrayList<>(); // 비어있는 리스트 반환
+	        }
+
+	        // 서비스 호출하여 데이터 조회
+	        return leaveService.getLeaveInfo(emp_id);
+	    }
 	
 }

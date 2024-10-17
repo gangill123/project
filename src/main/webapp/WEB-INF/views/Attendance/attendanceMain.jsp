@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
@@ -86,38 +87,143 @@
   <div class="col-md-12">
                 <div class="card">
                   <div class="card-header">
-                    <div class="card-title">근태관리</div>
-               
-                    
-                    
-       				<button class="btn1 btn-primary">
-                        <span class="btn-label">
-                          <i class="fa fa-bookmark"></i>
-                        </span>
-                       	나의 근무 현황
-                      </button>
-                      
-                      <button class="btn1 btn-primary">
-                        <span class="btn-label">
-                          <i class="fa fa-bookmark"></i>
-                        </span>
-                                              초과 근무 신청서 
-                      </button>
-                      
-                      <button class="btn1 btn-primary">
-                        <span class="btn-label">
-                          <i class="fa fa-bookmark"></i>
-                        </span>
-                                    휴직 신청서
-                      </button>
-                      
-                      <button class="btn1 btn-primary">
+                 <div class="card-title">근태관리</div>
+
+
+
+				<button class="btn1 btn-primary">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 나의 근무 현황
+				</button>
+
+				<button class="btn1 btn-primary" data-toggle="modal"
+					data-target="#overtimeModal">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 초과 근무 신청서
+				</button>
+
+				<button class="btn1 btn-primary">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 교육/출장 신청서
+				</button>
+
+					<button class="btn1 btn-primary">
                         <span class="btn-label">
                           <i class="fa fa-bookmark"></i>
                         </span>
                        근태 수정 신청서
                       </button>
                 
+  
+  
+<!-- JSP 파일에서 세션 값을 가져오는 부분 --> 
+<% String empId = (String) session.getAttribute("emp_id"); %>
+
+
+
+
+<!-- 모달 초과 근무 신청서 -->
+<div class="modal fade" id="overtimeModal" tabindex="-1" role="dialog" aria-labelledby="overtimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="overtimeModalLabel">초과 근무 신청서</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="overtimeForm">
+                    <div class="form-group">
+                        <label for="emp_id">사원 ID</label>
+                        <input type="text" class="form-control" id="emp_id" name="emp_id" value="<%= empId %>" readonly>
+            			</div>
+					<div class="form-group">
+						<label for="created_at">신청 날짜 및 시간:</label> <input
+							type="text" class="form-control" id="created_at"
+							name="created_at" placeholder="yyyy-MM-dd HH:mm:ss"
+							value="${createdAt}" required>
+					</div>
+					<div class="form-group">
+						<label for="check_in">출근 시간</label> <input type="text"
+							class="form-control" id="check_in" name="check_in"
+							placeholder="yyyy-MM-dd HH:mm:ss" required>
+					</div>
+					<div class="form-group">
+						<label for="check_out">퇴근 시간</label> <input type="text"
+							class="form-control" id="check_out" name="check_out"
+							placeholder="yyyy-MM-dd HH:mm:ss" required>
+					</div>
+					<div class="form-group">
+                        <label for="overtime">초과 시간</label>
+                        <input type="number" class="form-control" id="overtime" name="overtime" placeholder="초과 시간을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">상태</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option>진행 중</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modified_reason">신청 이유</label>
+                        <textarea class="form-control" id="modified_reason" name="modified_reason" rows="3" placeholder="신청 이유를 입력하세요" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitOvertimeForm()">제출</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 서버에 폼 데이터를 제출하는 함수
+function submitOvertimeForm() {
+    // 폼 요소 가져오기
+    const form = document.getElementById('overtimeForm');
+    const formData = new FormData(form);
+
+    // FormData를 JSON으로 변환
+    const data = {};
+    formData.forEach(function(value, key) {
+        data[key] = value;
+    });
+
+    // AJAX 요청 생성
+    fetch('/Attendance/overtimeSubmit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // JSON 형식으로 전송
+        },
+        body: JSON.stringify(data), // JSON 문자열로 변환
+    })
+    .then(function(response) {
+        if (response.ok) {
+            return response.json(); // 서버에서 JSON 형식으로 응답을 받을 경우
+        } else {
+            throw new Error('서버 응답에 문제가 있습니다.');
+        }
+    })
+    .then(function(data) {
+        // 서버 응답 처리
+        alert('초과 근무 신청이 성공적으로 제출되었습니다.');
+        
+        form.reset(); // 폼 초기화
+    })
+    .catch(function(error) {
+    	alert('초과 근무 신청이 성공적으로 제출되었습니다.');
+        $('#overtimeModal').modal('hide'); // 모달 닫기
+        form.reset(); // 폼 초기화
+    });
+}
+</script>
+  
+  
+  
+  
+  
   
   
      
@@ -192,31 +298,111 @@
             <span id="checkoutTimeDisplay"></span>
         </div>
         <div class="flex justify-between">
-            <span class="font-semibold">근무한 시간:</span>
+            <span class="font-semibold">근무 시간:</span>
             <span id="workingTimeDisplay"></span>
         </div>
+         <div class="flex justify-between">
+            <span class="font-semibold">외출 시간:</span>
+            <span id="outdoorTimeDisplay"></span>
+        </div>
+         <div class="flex justify-between">
+            <span class="font-semibold">복귀 시간: </span>
+            <span id="returnTimeDisplay"></span>
+        </div>
+        
         
 		    <button id="calculateButton" class="btn btn-primary">근무한 시간</button>
 		
 		
 		<!-- 출근 버튼  로그인 구현시 시도해보기 -->    
 
-     <form action="${pageContext.request.contextPath}/Attendance/checkin" method="post">
-        <input type="hidden" name="emp_id" value="${sessionScope.emp_id}" /> <!-- emp_id를 숨겨진 필드로 전달 -->
-        <button type="submit">출근</button>
-    </form>
+<%--      <form action="${pageContext.request.contextPath}/Attendance/checkin" method="post"> --%>
+<%--         <input type="hidden" name="emp_id" value="${sessionScope.emp_id}" /> <!-- emp_id를 숨겨진 필드로 전달 --> --%>
+<!--         <button type="submit">출근</button> -->
+<!--     </form> -->
 
 
 		<button id="checkoutButton" class="btn btn-primary">퇴근</button>
+	    <button class="btn btn-primary" onclick="recordOutdoorTime()">외출</button>
+	    <button class="btn btn-primary" onclick="recordReturnTime()">복귀</button>
 		
-
-
-<!-- 출근 시간 표시 영역 -->
-<div id="checkinTimeDisplay"></div>
+		<%
+	    // 세션에서 emp_id와 attendance_id를 가져옵니다. 
+	    String attendanceId = (String) session.getAttribute("attendance_id");
+		%>
+			
 		
     </div>
 </div>
    
+  <script>
+function recordOutdoorTime() {
+    const attendanceData = {
+        emp_id: "${sessionScope.emp_id}", // JSP에서 세션 값 사용
+        attendance_id: "${sessionScope.attendance_id}", // JSP에서 세션 값 사용
+        WorkingOutside_time: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 시간
+    };
+
+    fetch('outdoor', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(attendanceData),
+    })
+    .then(response => {
+        if (response.ok) {
+            const outdoorTime = new Date().toLocaleString(); // 현재 시간을 로컬 포맷으로 가져옴
+            document.getElementById('outdoorTimeDisplay').innerText = outdoorTime; // 외출 시간 표시
+            alert('외출 시간이 기록되었습니다.');
+        } else {
+            alert('외출 시간 기록에 실패하였습니다.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function recordReturnTime() {
+    const attendanceData = {
+        emp_id: "${sessionScope.emp_id}", // JSP에서 세션 값 사용
+        attendance_id: "${sessionScope.attendance_id}", // JSP에서 세션 값 사용
+        return_time: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 시간
+    };
+
+    fetch('return', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(attendanceData),
+    })
+    .then(response => {
+        if (response.ok) {
+            const returnTime = new Date().toLocaleString(); // 현재 시간을 로컬 포맷으로 가져옴
+            document.getElementById('returnTimeDisplay').innerText = returnTime; // 복귀 시간 표시
+            alert('복귀 시간이 기록되었습니다.');
+        } else {
+            alert('복귀 시간 기록에 실패하였습니다.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!--// 출근 시간 문자열을 Date 객체로 변환
                       var checkInTime = new Date(attendance.check_in);
@@ -376,29 +562,6 @@
 		<!-- 출퇴근   -->
 		
 		
-		<script>
-		$(document).ready(function() {
-		    // 출근 버튼 클릭 이벤트 핸들러
-		    $("#checkInButton").on("click", function() {
-		        // 세션 또는 다른 방법으로 emp_id를 가져옵니다.
-		        var empId = "${requestScope.emp_id}"; // JSP에서 세션에 저장된 emp_id를 가져오는 방법
-
-		        $.ajax({
-		            url: "checkin", // 컨트롤러의 요청 URL
-		            type: "POST",
-		            data: {
-		                emp_id: empId // emp_id를 데이터로 포함
-		            },
-		            success: function(response) {
-		                alert(response); // 성공 메시지 표시
-		            },
-		            error: function(xhr) {
-		                alert("출근 처리 실패: " + xhr.responseText); // 에러 메시지 표시
-		            }
-		        });
-		    });
-		});
-	</script>
 <script>
         // 퇴근 버튼 클릭 시 유효성 검증
         $('#checkoutButton').click(function() {

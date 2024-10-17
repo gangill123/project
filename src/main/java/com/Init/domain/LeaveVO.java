@@ -16,7 +16,7 @@ public class LeaveVO {
     // 사원 번호
     private String emp_id; // emp_id
 
-    // 휴가 유형 (예비군-1, 출산휴가-2, 병가-3 등)
+    // 휴가 유형 
     private String leave_type; // leaveType
 
     // 휴가 시작일
@@ -34,9 +34,14 @@ public class LeaveVO {
     private Date end_annual_leave; 
 
     // 총 연차 일수 관련 필드
-    private int total_annual_leave; 
-    private int used_annual_leave; 
-    private int remaining_annual_leave; 
+    private int total_annual_leave;  // 총 나의 연차
+    private int used_annual_leave;  //  사용 연차
+    private int remaining_annual_leave; //잔여 연차
+    private int Lgrant; // 연차 부여 
+    private int expiry; // 연차 소멸
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date adjustmentDate; // 연차 생성 조정 삭제 날짜
 
     // 휴가 종료일
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -58,6 +63,16 @@ public class LeaveVO {
 
     // 총 휴가 일수 관련 필드
     private int total_leave_days; 
-    private int used_leave; 
+    private int used_leave; //사용된휴가
     private int remaining_leave; 
+    
+   
+    
+    
+    
+    
+    
+   
+    
+    
 }

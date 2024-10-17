@@ -7,8 +7,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 import com.Init.persistence.AttendanceDAO;
 
 @Service
@@ -124,9 +126,25 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceDAO.selectRecentAttendanceRecords(emp_id);
 	}
 
+	@Override
 	public void updateWorkformStatus(String emp_id, String workform_status) {
 		// DAO를 호출하여 근무 상태를 업데이트
 		attendanceDAO.updateWorkformStatus(emp_id, workform_status);
+	}
+
+	@Override
+	public void submitOvertime(AttendanceVO attendanceVO) {
+		attendanceDAO.insertOvertime(attendanceVO);
+	}
+
+	@Override
+	public void updateWorkingOutsideTime(AttendanceVO attendanceVO) {
+		attendanceDAO.updateWorkingOutsideTime(attendanceVO);
+	}
+
+	@Override
+	public void updateReturnTime(AttendanceVO attendanceVO) {
+		attendanceDAO.updateReturnTime(attendanceVO);
 	}
 
 }

@@ -144,7 +144,7 @@
                         <th>퇴근 수정 시간</th>
                         <th>외출 수정 시간</th>
                         <th>결재 수정 시간</th>
-                        <th>결재일</th>
+                        <th>신청일</th>
                         <th>근태 ID</th>
                         <th>상태</th>
                         <th>초과 근무 시간</th>
@@ -207,19 +207,19 @@
                                 <input type="text" class="form-control" id="modalSpecialWorkingTimeInput">
                             </div>
                             <div class="form-group">
-                                <label for="modalNewCheckInInput">수정된 출근</label>
+                                <label for="modalNewCheckInInput">출근 수정 시간</label>
                                 <input type="text" class="form-control" id="modalNewCheckInInput">
                             </div>
                             <div class="form-group">
-                                <label for="modalNewCheckOutInput">수정된 퇴근</label>
+                                <label for="modalNewCheckOutInput">퇴근 수정 시간</label>
                                 <input type="text" class="form-control" id="modalNewCheckOutInput">
                             </div>
                             <div class="form-group">
-                                <label for="modalNewWorkingOutsideTimeInput">수정된 외출 시간</label>
+                                <label for="modalNewWorkingOutsideTimeInput">외출 수정 시간</label>
                                 <input type="text" class="form-control" id="modalNewWorkingOutsideTimeInput">
                             </div>
                             <div class="form-group">
-                                <label for="modalModifiedTimeInput">수정 시간</label>
+                                <label for="modalModifiedTimeInput">수정 일자</label>
                                 <input type="text" class="form-control" id="modalModifiedTimeInput">
                             </div>
                             <div class="form-group">
