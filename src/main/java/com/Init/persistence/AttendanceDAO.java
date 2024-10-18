@@ -1,11 +1,11 @@
 package com.Init.persistence;
 
-import java.util.List;
+import java.util.List; 
 
 import org.apache.ibatis.annotations.Param;
 
 import com.Init.domain.AttendanceVO;
-import com.Init.domain.OvertimeDTO;
+
 
 /*
  *  tbl_member 테이블의 데이터를 활용하는 동작을 정의
