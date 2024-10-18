@@ -39,16 +39,17 @@ public class LeaveVO {
     private int remaining_annual_leave; //잔여 연차
     private int Lgrant; // 연차 부여 
     private int expiry; // 연차 소멸
+    private int adjustment; // 연차 조정
+  
+    // 휴가 상태 
+    private String leave_status; 
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date adjustmentDate; // 연차 생성 조정 삭제 날짜
+    private Date adjustmentDate; // 연차 조정,사용,부여,소멸 시  날짜 디폴트로 입력되야됨
 
     // 휴가 종료일
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date end_leave_date; 
-
-    // 휴가 상태 (신청중-1, 승인-2, 거절-3)
-    private String leave_status; 
 
     // 승인 날짜
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -63,7 +64,7 @@ public class LeaveVO {
 
     // 총 휴가 일수 관련 필드
     private int total_leave_days; 
-    private int used_leave; //사용된휴가
+    private int used_leave; //사용하는 휴가
     private int remaining_leave; 
     
    

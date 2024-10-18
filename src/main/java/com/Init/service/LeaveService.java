@@ -15,6 +15,8 @@ public interface LeaveService {
 	void deleteLeave(int leave_id);
 
 	List<LeaveVO> getLeaveInfo(String emp_id);
-	
 
+	public void useAnnualLeave(LeaveVO leaveVO);
+
+	public void submitLeaveRequest(LeaveVO leaveVO);
 }

@@ -1,5 +1,8 @@
 package com.Init.persistence;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,16 +60,37 @@ public class LeaveDAOImpl implements LeaveDAO {
 
 	@Override
 	public void deleteLeave(int leave_id) {
-		  int affectedRows = sqlSession.delete(NAMESPACE + ".deleteLeave", leave_id);
-	        // affectedRows는 삭제된 행의 수입니다.
-	        if (affectedRows == 0) {
-	            throw new RuntimeException("삭제된 행이 없습니다.");
-	        }
-	    }
-	
-	
-	public List<LeaveVO> selectLeaveInfo(String emp_id) {
-		return sqlSession.selectOne(NAMESPACE + ".getLeaveInfo",emp_id);
-    }
+		int affectedRows = sqlSession.delete(NAMESPACE + ".deleteLeave", leave_id);
+		// affectedRows는 삭제된 행의 수입니다.
+		if (affectedRows == 0) {
+			throw new RuntimeException("삭제된 행이 없습니다.");
+		}
+	}
 
+	public List<LeaveVO> selectLeaveInfo(String emp_id) {
+		return sqlSession.selectList(NAMESPACE + ".getLeaveInfo", emp_id);
+	}
+
+	@Override
+	public LeaveVO getLeaveByEmpId(String emp_id) {
+		return sqlSession.selectOne(NAMESPACE + ".getLeaveByEmpId", emp_id);
+	}
+
+	@Override
+	public void updateLeaveA(LeaveVO leaveVO) {
+		sqlSession.update(NAMESPACE + ".updateLeaveA", leaveVO);
+	}
+
+	@Override
+	public void insertLeaveRequest(LeaveVO leaveVO) {
+		sqlSession.insert(NAMESPACE + ".insertLeaveRequest", leaveVO);
+	}
+
+	@Override
+	public void insertLeaveRequestA(LeaveVO leaveVO) {
+		sqlSession.insert(NAMESPACE + ".insertLeaveRequestA", leaveVO);
+	}
+	
+	
+	
 }
