@@ -8,12 +8,12 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 
 /*
  *  MemberDAO 동작을 수행
@@ -44,11 +44,10 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 
 	}
 
-//	  // 출퇴근 QR 인식
-//	  @Override
-//	    public void checkIn(AttendanceVO attendance) {
-//	        sqlSession.insert(NAMESPACE + ".checkIn", attendance);
-//	    }
+	@Override
+	public void checkIn(String emp_id) {
+		sqlSession.insert(NAMESPACE + ".checkIn", emp_id);
+	}
 //
 //	    @Override
 //	    public void checkOut(AttendanceVO attendance) {
@@ -92,36 +91,71 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 		// 퇴근 기록만 조회하는 쿼리 실행
 		return sqlSession.selectOne(NAMESPACE + ".fetchLatestCheckOutRecord", emp_id);
 	}
-		
+
 	@Override
 	public void calculateAndUpdateWorkingTime(String emp_id) {
-        sqlSession.update(NAMESPACE + ".calculateAndUpdateWorkingTime", emp_id);
-    }
+		sqlSession.update(NAMESPACE + ".calculateAndUpdateWorkingTime", emp_id);
+	}
+
 	@Override
 	public double getWorkingTime(String emp_id) {
 		return sqlSession.selectOne(NAMESPACE + ".getWorkingTime", emp_id);
-		
-	}
-	
-	 // 페이징을 위한 새로운 메소드 구현
-    @Override
-    public List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("emp_id", emp_id);
-        params.put("offset", offset);
-        params.put("size", size);
 
-        return sqlSession.selectList(NAMESPACE + ".getAllCheckTimeWithPaging", params);
-    }
+	}
+
+	// 페이징을 위한 새로운 메소드 구현
+	@Override
+	public List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("emp_id", emp_id);
+		params.put("offset", offset);
+		params.put("size", size);
+
+		return sqlSession.selectList(NAMESPACE + ".getAllCheckTimeWithPaging", params);
+	}
+
 	@Override
 	public int getTotalCheckTimeCount(String emp_id) {
 		// TODO Auto-generated method stub
-		 return sqlSession.selectOne(NAMESPACE + ".getTotalCheckTimeCount", emp_id);
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCheckTimeCount", emp_id);
 	}
-	 @Override
-	    public void updateAttendanceRecord(AttendanceVO attendanceVO) {
-		   logger.debug("Updating Attendance Record: " + attendanceVO);
-	        sqlSession.update(NAMESPACE+".updateAttendanceRecord", attendanceVO);
-	    }
+
+	@Override
+	public void updateAttendanceRecord(AttendanceVO attendanceVO) {
+		logger.debug("Updating Attendance Record: " + attendanceVO);
+		sqlSession.update(NAMESPACE + ".updateAttendanceRecord", attendanceVO);
+	}
+
+	@Override
+	public int deleteAttendance(int attendance_id) {
+		return sqlSession.delete(NAMESPACE + ".deleteAttendance", attendance_id);
+	}
+
+	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id) {
+		return sqlSession.selectList(NAMESPACE + ".selectRecentAttendanceRecords", emp_id);
+	}
+
+	public void updateWorkformStatus(String empId, String workformStatus) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("emp_id", empId);
+		params.put("workform_status", workformStatus);
+
+		sqlSession.update(NAMESPACE + ".updateWorkformStatus", params);
+	}
+
+	@Override
+	public void insertOvertime(AttendanceVO attendanceVO) {
+		sqlSession.insert(NAMESPACE + ".insertOvertime", attendanceVO);
+	}
+	
+	@Override
+    public int updateWorkingOutsideTime(AttendanceVO attendanceVO) {
+        return sqlSession.update(NAMESPACE+".updateWorkingOutsideTime", attendanceVO);
+    }
+
+    @Override
+    public int updateReturnTime(AttendanceVO attendanceVO) {
+        return sqlSession.update(NAMESPACE+".updateReturnTime", attendanceVO);
+    }
 	
 }

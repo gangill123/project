@@ -1,9 +1,12 @@
 package com.Init.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Init.domain.LeaveVO;
 import com.Init.service.LeaveService;
@@ -89,37 +93,31 @@ public class LeaveController {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // 서버 오류
 	        }
 	    }
-	// ----------------------------------
-	 
+	
+	    
+	    // 휴가 삭제 메서드
+	    @PostMapping("/leaveDelete")
+	    public ResponseEntity<?> deleteLeave(@RequestParam("leave_id") int leave_id) {
+	        try {
+	            leaveService.deleteLeave(leave_id);
+	            return ResponseEntity.ok().body("{\"success\": true}");
+	        } catch (Exception e) {
+	            return ResponseEntity.status(500).body("{\"success\": false}");
+	        }
+	    }
+	    
+	    @GetMapping("/getLeaveInfo")
+	    @ResponseBody
+	    public List<LeaveVO> getLeaveInfo(HttpSession session) {
+	        String emp_id = (String) session.getAttribute("emp_id");
 
-	    @GetMapping("/leaves")
-	    public ResponseEntity<Map<String, Object>> getLeaves(
-	            @RequestParam(defaultValue = "1") int currentPage,
-	            @RequestParam(defaultValue = "10") int size,
-	            @RequestParam(required = false) String emp_id) {
-	        
-	        if (currentPage < 1) {
-	            currentPage = 1;
+	        // emp_id가 없으면 빈 리스트 반환
+	        if (emp_id == null) {
+	            return new ArrayList<>(); // 비어있는 리스트 반환
 	        }
 
-	        // 서비스에서 emp_id에 해당하는 휴가 목록 가져오기
-	        List<LeaveVO> leaves = leaveService.findLeaves(emp_id, currentPage, size);
-	        
-	        // 총 항목 수 가져오기
-	        int totalItems = leaveService.getTotalLeavesCount(emp_id);
-
-	        // 응답 구조 생성
-	        Map<String, Object> response = new HashMap<>();
-	        response.put("leaves", leaves);
-	        response.put("totalItems", totalItems);
-
-	        return ResponseEntity.ok(response);
+	        // 서비스 호출하여 데이터 조회
+	        return leaveService.getLeaveInfo(emp_id);
 	    }
-	
-	
-	
-	
-	
-	
 	
 }

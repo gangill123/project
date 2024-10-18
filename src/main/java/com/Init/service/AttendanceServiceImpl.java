@@ -7,19 +7,11 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 import com.Init.persistence.AttendanceDAO;
-import com.Init.persistence.AttendanceDAOImpl;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
@@ -35,13 +27,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceDAO.getAllCheckTime(emp_id);
 	}
 
-//	@Override
-//	public void checkIn(AttendanceVO attendance) {
-//	    // 출근 기록을 저장하는 로직
-//	    AttendanceVO checkIn = new AttendanceVO();
-//	    checkIn.setEmp_id(attendance.getEmp_id()); // attendance 객체에서 emp_id 가져오기
-//	    attendanceDAO.checkIn(checkIn);
-//	}
+	@Override
+	public void checkIn(String emp_id) {
+		// 출근 기록을 저장하는 로직
+
+		attendanceDAO.checkIn(emp_id);
+	}
 //
 //	@Override
 //	public void checkOut(AttendanceVO attendance) {
@@ -123,6 +114,37 @@ public class AttendanceServiceImpl implements AttendanceService {
 		logger.debug("Before updating attendance record.");
 		attendanceDAO.updateAttendanceRecord(attendanceVO);
 		logger.debug("After updating attendance record.");
+	}
+
+	@Override
+	public boolean deleteAttendance(int attendance_id) {
+		return attendanceDAO.deleteAttendance(attendance_id) > 0;
+	}
+
+	@Override
+	public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id) {
+		return attendanceDAO.selectRecentAttendanceRecords(emp_id);
+	}
+
+	@Override
+	public void updateWorkformStatus(String emp_id, String workform_status) {
+		// DAO를 호출하여 근무 상태를 업데이트
+		attendanceDAO.updateWorkformStatus(emp_id, workform_status);
+	}
+
+	@Override
+	public void submitOvertime(AttendanceVO attendanceVO) {
+		attendanceDAO.insertOvertime(attendanceVO);
+	}
+
+	@Override
+	public void updateWorkingOutsideTime(AttendanceVO attendanceVO) {
+		attendanceDAO.updateWorkingOutsideTime(attendanceVO);
+	}
+
+	@Override
+	public void updateReturnTime(AttendanceVO attendanceVO) {
+		attendanceDAO.updateReturnTime(attendanceVO);
 	}
 
 }

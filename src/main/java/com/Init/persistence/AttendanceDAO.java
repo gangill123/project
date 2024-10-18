@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 
 /*
  *  tbl_member 테이블의 데이터를 활용하는 동작을 정의
@@ -38,12 +39,31 @@ public interface AttendanceDAO {
 	void calculateAndUpdateWorkingTime(String emp_id);
 
 	double getWorkingTime(String emp_id);
+
+	// 페이징을 위한 새로운 메소드
+	List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size);
+
+	int getTotalCheckTimeCount(@Param("empId") String emp_id);
+
+	void updateAttendanceRecord(AttendanceVO attendanceVO);
+
+	int deleteAttendance(int attendance_id);
+
+	public List<AttendanceVO> selectRecentAttendanceRecords(String emp_id);
+
+	void checkIn(String emp_id);
+
 	
-	  // 페이징을 위한 새로운 메소드
-    List<AttendanceVO> getAllCheckTime(String emp_id, int offset, int size);
+
+	void updateWorkformStatus(String emp_id, String workform_status);
+
+	void insertOvertime(AttendanceVO attendanceVO);
+
+	  // 외출 시간 업데이트
+    int updateWorkingOutsideTime(AttendanceVO attendanceVO);
     
-    int getTotalCheckTimeCount(@Param("empId") String emp_id);
-    
-    void updateAttendanceRecord(AttendanceVO attendanceVO);
-  
+    // 복귀 시간 업데이트
+    int updateReturnTime(AttendanceVO attendanceVO);
+
+
 }

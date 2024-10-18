@@ -11,7 +11,8 @@
 
 	<select id="getAllLeaves" resultType="com.Init.domain.LeaveVO">
 		SELECT *
-		FROM leave_management
+		FROM
+		leave_management
 		WHERE emp_id = #{emp_id}
 	</select>
 
@@ -21,42 +22,73 @@
 	</select>
 
 
-
+	<!--업데이트 -->
 	<update id="updateLeave" parameterType="com.Init.domain.LeaveVO">
 		UPDATE leave_management
 		SET leave_type = #{leave_type},
 		leave_start_date = #{leave_start_date},
 		end_leave_date = #{end_leave_date},
 		t_leave = #{t_leave},
-		annual_leave = #{annual_leave},
+		annual_leave =
+		#{annual_leave},
 		annual_leave_start_date = #{annual_leave_start_date},
 		end_annual_leave = #{end_annual_leave},
-		total_annual_leave = #{total_annual_leave},
+		total_annual_leave =
+		#{total_annual_leave},
 		used_annual_leave = #{used_annual_leave},
 		remaining_annual_leave = #{remaining_annual_leave},
-		leave_status = #{leave_status},
+		leave_status =
+		#{leave_status},
 		approval_date = #{approval_date},
 		reason = #{reason},
 		requested_at = #{requested_at},
 		total_leave_days = #{total_leave_days},
 		used_leave = #{used_leave},
 		remaining_leave = #{remaining_leave}
+
+
+
 		WHERE leave_id = #{leave_id}
 	</update>
-	<!--페이징 처리  -->
-	
-	<select id="findLeaves" parameterType="map" resultType="com.Init.domain.LeaveVO">
-    SELECT * FROM leave_management
-    ORDER BY leave_id
-    LIMIT #{size} OFFSET #{offset}
+
+
+
+	<!-- 휴가 삭제 쿼리 -->
+	<delete id="deleteLeave" parameterType="int">
+		DELETE FROM leave_management WHERE leave_id = #{leave_id}
+	</delete>
+
+	<!-- 휴가 메인 페이지에 뿌려주는 쿼리 -->
+	<select id="getLeaveInfo" parameterType="String"
+		resultType="com.Init.domain.LeaveVO">
+		SELECT
+		lm.leave_id,
+		lm.emp_id,
+		lm.leave_type,
+		lm.leave_start_date,
+		lm.t_leave,
+		lm.annual_leave,
+		lm.annual_leave_start_date,
+		lm.end_annual_leave,
+		lm.total_annual_leave,
+		lm.used_annual_leave,
+		lm.remaining_annual_leave,
+		lm.Lgrant,
+		lm.expiry,
+		lm.adjustmentDate,
+		lm.end_leave_date,
+		lm.leave_status,
+		lm.approval_date,
+		lm.reason,
+		lm.requested_at,
+		lm.total_leave_days,
+		lm.used_leave,
+		lm.remaining_leave
+		FROM leave_management lm
+		JOIN employee e ON lm.emp_id = e.emp_id
+		WHERE e.emp_id = #{emp_id} 
 	</select>
-	
-	
-	 <select id="getTotalLeavesCount" resultType="int">
-        SELECT COUNT(*) 
-        FROM leave_management
-        WHERE emp_id = #{emp_id}
-    </select>
+
 
 
 </mapper>

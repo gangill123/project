@@ -7,17 +7,23 @@
 <meta charset="UTF-8"> <!-- 한글 인코딩 추가 -->
 
    
-  
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+   
+   
+   
    
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveMain.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/leaveStyle.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
    
+    
+     
+    
+    
+    
+    
+     
     <script src="${pageContext.request.contextPath }/resources/assets/js/plugin/webfont/webfont.min.js"></script>
-    
-     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -44,165 +50,242 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/demo.css" />
   </head>
-<body>
-  
+  <body>
     <div class="wrapper">
-        <%@ include file="/resources/assets/inc/sidebar.jsp" %> <!-- sidebar -->
-        <div class="main-panel">
-            <div class="main-header">
-                <%@ include file="/resources/assets/inc/logo_header.jsp" %> <!-- Logo Header -->
-                <%@ include file="/resources/assets/inc/navbar.jsp" %> <!-- Navbar Header -->
-            </div>
-            <div class="container">
-                <div class="page-inner">
-                    <div id='calendar'></div>
-                    <div id='popup' style="width:500px; height:600px; display:none; background-color:white; padding:20px; border-radius:14px; border:2px solid #eeeeee"></div>
-                </div>
+      <%@ include file="/resources/assets/inc/sidebar.jsp" %> <!-- sidebar -->
+      <div class="main-panel">
+        <div class="main-header">
+          <%@ include file="/resources/assets/inc/logo_header.jsp" %> <!-- Logo Header -->
+          <%@ include file="/resources/assets/inc/navbar.jsp" %> <!-- Navbar Header -->
+        </div>
+        <div class="container">
+          <div class="page-inner">
                 
                 <!-- page-inner -->
 <!------------------------------------------------------------------------------------------------------------------>
+                    
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                 <div class="card-title">휴가 관리</div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto">
-    <!-- 카드 1: 기본 근무시간 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#basicWorkingHoursModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">👨‍💼</span>
-            <h2 class="ml-4 text-3xl font-semibold">기본 근무시간</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">직장별 기본근무시간을 확인하세요. 임시저장된 구성원 명단도 확인할 수 있습니다.</p>
-    </div>
 
-    <!-- 카드 2: 초과 근무시간 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#overtimeHoursModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">🔥</span>
-            <h2 class="ml-4 text-3xl font-semibold">초과 근무시간</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">연장, 야간, 휴일 초과근무시간을 확인하세요. 기본근무시간과 동일하게 초과시간을 관리하여 확인할 수 있습니다.</p>
-    </div>
 
-    <!-- 카드 3: 일별 근태 기록 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#dailyAttendanceRecordModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">🏃‍♂️</span>
-            <h2 class="ml-4 text-3xl font-semibold">일별 근태 기록</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">전체 근태의 일별 근태기록을 확인하세요. 출, 퇴근시간, 외근시간, 조퇴시간, 휴가시간을 확인할 수 있습니다.</p>
-    </div>
+				<button class="btn1 btn-primary">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 연차 신청서
+				</button>
 
-    <!-- 카드 4: 연차 사용현황 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#annualLeaveStatusModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">🚗</span>
-            <h2 class="ml-4 text-3xl font-semibold">연차 사용현황</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">구성원의 연차를 확인하세요. 기간 별 연차 현황, 사용한 연차 내역 언제든 쉽게 확인할 수 있습니다.</p>
-    </div>
+				<button class="btn1 btn-primary" data-toggle="modal"
+					data-target="#overtimeModal">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 휴가 신청서
+				</button>
 
-    <!-- 카드 5: 구성원 인사정보 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#employeeInfoModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">📄</span>
-            <h2 class="ml-4 text-3xl font-semibold">구성원 인사정보</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">구성원의 인사정보를 다운로드 합니다. 인사 연차기준이 아닌 현재 직책의 구성원 정보로 표기되지 않습니다.</p>
-    </div>
+				<button class="btn1 btn-primary">
+					<span class="btn-label"> <i class="fa fa-bookmark"></i>
+					</span> 휴직 신청서
+				</button>
 
-    <!-- 카드 6: 구성원 계약정보 -->
-    <div class="bg-white p-8 rounded-lg shadow-md flex flex-col items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#contractInfoModal">
-        <div class="flex items-center mb-6">
-            <span class="text-8xl">✍️</span>
-            <h2 class="ml-4 text-3xl font-semibold">구성원 계약정보</h2>
-        </div>
-        <p class="text-gray-600 mb-4 text-xl text-center">개별 계약정보를 다운로드 합니다. 인사 연차기준이 아닌 현재 직책의 구성원 정보로 표기되지 않습니다.</p>
-    </div>
+					<button class="btn1 btn-primary">
+                        <span class="btn-label">
+                          <i class="fa fa-bookmark"></i>
+                        </span>
+                       		나의 휴가 현황
+              </button>
+
+
+
+
+<div class="card-header">
+                    <h4 class="card-title">나의 연차 현황표</h4>
+                  </div>
+<div class="card-body">
+	<div class="table-responsive">
+		<div id="basic-datatables_wrapper"
+			class="dataTables_wrapper container-fluid dt-bootstrap4">
+			<div class="row">
+				<div class="col-sm-12 col-md-6">
+					<div class="dataTables_length" id="basic-datatables_length">
+						<label>Show <select name="basic-datatables_length"
+							aria-controls="basic-datatables"
+							class="form-control form-control-sm"><option
+									value="10">10</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option></select> entries
+						</label>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6">
+					<div id="basic-datatables_filter" class="dataTables_filter">
+						<label>Search:<input type="search"
+							class="form-control form-control-sm" placeholder=""
+							aria-controls="basic-datatables"></label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<table id="basic-datatables"
+						class="display table table-striped table-hover dataTable"
+						role="grid" aria-describedby="basic-datatables_info">
+						<thead>
+							<tr role="row">
+								<th class="sorting_asc" tabindex="0"
+									aria-controls="basic-datatables" rowspan="1"
+									colspan="1" aria-sort="ascending"
+									aria-label="Name: activate to sort column descending"
+									style="width: 242.312px;">날짜</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Position: activate to sort column ascending"
+							style="width: 366.031px;">자동부여</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Office: activate to sort column ascending"
+							style="width: 187.375px;">자동소멸</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Age: activate to sort column ascending"
+							style="width: 84.3125px;">조정</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Start date: activate to sort column ascending"
+							style="width: 183.922px;">사용</th>
+						<th class="sorting" tabindex="0"
+							aria-controls="basic-datatables" rowspan="1"
+							colspan="1"
+							aria-label="Salary: activate to sort column ascending"
+							style="width: 156.047px;">잔여</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th rowspan="1" colspan="1"></th>
+								<th rowspan="1" colspan="1"></th>
+								<th rowspan="1" colspan="1"></th>
+								<th rowspan="1" colspan="1"></th>
+								<th rowspan="1" colspan="1"></th>
+								<th rowspan="1" colspan="1"></th>
+							</tr>
+						</tfoot>
+						<tbody>
+
+				
+<!-- 연차 소멸 부여 자동 테이블  -->
+<!-- 							<tr role="row" class="odd"> -->
+<!-- 								<td class="sorting_1"></td> -->
+					 <c:forEach var="leave" items="${leaveInfo}">
+            <tr role="row" class="odd">
+                <td class="sorting_1">${leave.adjustmentDate}</td>
+                <td class="sorting_1">${leave.Lgrant}</td>
+                <td class="sorting_1">${leave.expiry}</td>
+                <td class="sorting_1">${leave.adjustment}</td> <!-- 조정 필드 -->
+                <td class="sorting_1">${leave.used_annual_leave}</td>
+                <td class="sorting_1">${leave.remaining_annual_leave}</td>
+            </tr>
+        </c:forEach>
+	
+					
+						</tbody>
+					</table>
+					
+					
+	<script>
+	
+	$.ajax({
+	    url: 'getLeaveInfo',
+	    method: 'GET',
+	    contentType: 'application/json', // 명시적으로 설정
+	    success: function(data) {
+	        if (data.length > 0) {
+	            data.forEach(function(leave) {
+	                var row = '<tr>' +
+	                    '<td>' + leave.adjustmentDate + '</td>' +
+	                    '<td>' + leave.Lgrant + '</td>' +
+	                    '<td>' + leave.expiry + '</td>' +
+	                    '<td>' + (leave.adjustment ? leave.adjustment : '') + '</td>' +
+	                    '<td>' + leave.used_annual_leave + '</td>' +
+	                    '<td>' + leave.remaining_annual_leave + '</td>' +
+	                    '</tr>';
+	                $('#leaveTable tbody').append(row);
+	            });
+	        } else {
+	            alert('휴가 정보가 없습니다.');
+	        }
+	    },
+	    error: function() {
+	        alert('서버 요청에 실패했습니다.');
+	    }
+	});
+</script>
+
+
+
+					
+					
+					
+					
+					
+					
+					
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-md-5">
+					<div class="dataTables_info" id="basic-datatables_info"
+						role="status" aria-live="polite">Showing 1 to 10 of
+						57 entries</div>
+				</div>
+				<div class="col-sm-12 col-md-7">
+					<div class="dataTables_paginate paging_simple_numbers"
+						id="basic-datatables_paginate">
+						<ul class="pagination">
+							<li class="paginate_button page-item previous disabled"
+								id="basic-datatables_previous"><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="0"
+								tabindex="0" class="page-link">Previous</a></li>
+							<li class="paginate_button page-item active"><a
+								href="#" aria-controls="basic-datatables"
+								data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+							<li class="paginate_button page-item "><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="2"
+								tabindex="0" class="page-link">2</a></li>
+							<li class="paginate_button page-item "><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="3"
+								tabindex="0" class="page-link">3</a></li>
+							<li class="paginate_button page-item "><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="4"
+								tabindex="0" class="page-link">4</a></li>
+							<li class="paginate_button page-item "><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="5"
+								tabindex="0" class="page-link">5</a></li>
+							<li class="paginate_button page-item "><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="6"
+								tabindex="0" class="page-link">6</a></li>
+							<li class="paginate_button page-item next"
+								id="basic-datatables_next"><a href="#"
+								aria-controls="basic-datatables" data-dt-idx="7"
+								tabindex="0" class="page-link">Next</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<!-- 모달 구조 -->
-<div class="modal fade" id="basicWorkingHoursModal" tabindex="-1" aria-labelledby="basicWorkingHoursModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="basicWorkingHoursModalLabel">기본 근무시간</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                직장별 기본근무시간을 확인하세요. 임시저장된 구성원 명단도 확인할 수 있습니다.
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="overtimeHoursModal" tabindex="-1" aria-labelledby="overtimeHoursModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="overtimeHoursModalLabel">초과 근무시간</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                연장, 야간, 휴일 초과근무시간을 확인하세요. 기본근무시간과 동일하게 초과시간을 관리하여 확인할 수 있습니다.
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="dailyAttendanceRecordModal" tabindex="-1" aria-labelledby="dailyAttendanceRecordModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dailyAttendanceRecordModalLabel">일별 근태 기록</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                전체 근태의 일별 근태기록을 확인하세요. 출, 퇴근시간, 외근시간, 조퇴시간, 휴가시간을 확인할 수 있습니다.
-            </div>
-        </div>
-    </div>
 </div>
-
-<div class="modal fade" id="annualLeaveStatusModal" tabindex="-1" aria-labelledby="annualLeaveStatusModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="annualLeaveStatusModalLabel">연차 사용현황</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                구성원의 연차를 확인하세요. 기간 별 연차 현황, 사용한 연차 내역 언제든 쉽게 확인할 수 있습니다.
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="employeeInfoModal" tabindex="-1" aria-labelledby="employeeInfoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="employeeInfoModalLabel">구성원 인사정보</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                구성원의 인사정보를 다운로드 합니다. 인사 연차기준이 아닌 현재 직책의 구성원 정보로 표기되지 않습니다.
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="contractInfoModal" tabindex="-1" aria-labelledby="contractInfoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contractInfoModalLabel">구성원 계약정보</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                개별 계약정보를 다운로드 합니다. 인사 연차기준이 아닌 현재 직책의 구성원 정보로 표기되지 않습니다.
-            </div>
-        </div>
-    </div>
-</div>
-
+                  <div class="card-body">
+                    
    
 
 <!------------------------------------------------------------------------------------------------------------------>
@@ -210,7 +293,7 @@
           <!-- page-inner -->
         </div>
 		<!-- container -->
-        <%@ include file="/resources/assets/inc/footer.jsp" %>
+<%--         <%@ include file="/resources/assets/inc/footer.jsp" %> --%>
       </div>
       <!-- main-panel -->
     </div>
@@ -280,5 +363,6 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
+    
   </body>
 </html>

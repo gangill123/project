@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.Init.domain.AttendanceVO;
+import com.Init.domain.OvertimeDTO;
 
 public interface AttendanceService {
 
@@ -36,4 +37,22 @@ public interface AttendanceService {
 
 	void updateAttendanceRecord(AttendanceVO attendanceVO);
 
+	public boolean deleteAttendance(int attendance_id);
+
+	public List<AttendanceVO> fetchRecentAttendanceRecords(String emp_id);
+
+	void checkIn(String emp_id);
+
+	public void updateWorkformStatus(String emp_id, String workform_Status);
+
+	public void submitOvertime(AttendanceVO attendanceVO);
+	
+	// 외출 시간 업데이트
+    void updateWorkingOutsideTime(AttendanceVO attendanceVO);
+    
+    // 복귀 시간 업데이트
+    void updateReturnTime(AttendanceVO attendanceVO);
+    
+    
+	
 }

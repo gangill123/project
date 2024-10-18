@@ -106,48 +106,64 @@
         <div class="container">
           <div class="page-inner">
 <!------------------------------------------------------------------------------------------------------------------>
+  
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">근태관리</div>
+               
+                    
+                    
+
+
+
+
+
+
+
 <h1>사원 근태 관리</h1>
 <input type="text" id="emp_id" placeholder="사원 ID를 입력하세요" />
 <button id="checkTimeButton" class="btn btn-info">사원 조회</button>
 
 <!-- 사원 근태 데이터 테이블 -->
-<div id="attendanceData">
-    <table id="checkTimeTable" class="table mt-3">
-        <thead>
-            <tr>
-                <th>직원 ID</th>
-                <th>직원 CID</th>
-                <th>출근 시간</th>
-                <th>퇴근 시간</th>
-                <th>외출 시간</th>
-                <th>복귀 시간</th>
-                <th>근무 시간</th>
-                <th>야근 시간</th>
-                <th>특별 근무 시간</th>
-                <th>근무 상태</th>
-                <th>출근 수정 시간</th>
-                <th>퇴근 수정 시간</th>
-                <th>외출 수정 시간</th>
-                <th>결재 수정 시간</th>
-                <th>결재일</th>
-                <th>근태 ID</th>
-                <th>상태</th>
-                <th>초과 근무 시간</th>
-                <th>수정 이유</th>
-                <th>수정인</th>
-                <th>수정</th>
-            </tr>
-        </thead>
-        <tbody id="checkTimeList">
-            <!-- 조회된 데이터가 여기에 삽입됩니다 -->
-        </tbody>
-    </table>
-    <!-- 페이징 버튼을 위한 공간 -->
-    <ul id="pagination" class="pagination"></ul>
-</div>
+  <div id="attendanceData">
+            <table id="checkTimeTable" class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>직원 ID</th>
+                        <th>직원 CID</th>
+                        <th>출근 시간</th>
+                        <th>퇴근 시간</th>
+                        <th>외출 시간</th>
+                        <th>복귀 시간</th>
+                        <th>근무 시간</th>
+                        <th>야근 시간</th>
+                        <th>특별 근무 시간</th>
+                        <th>근무 상태</th>
+                        <th>출근 수정 시간</th>
+                        <th>퇴근 수정 시간</th>
+                        <th>외출 수정 시간</th>
+                        <th>결재 수정 시간</th>
+                        <th>신청일</th>
+                        <th>근태 ID</th>
+                        <th>상태</th>
+                        <th>초과 근무 시간</th>
+                        <th>수정 이유</th>
+                        <th>수정인</th>
+                        <th>수정</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody id="checkTimeList">
+                    <!-- 조회된 데이터가 여기에 삽입됩니다 -->
+                </tbody>
+            </table>
+            <!-- 페이징 버튼을 위한 공간 -->
+            <ul id="pagination" class="pagination"></ul>
+        </div>
 
-<!-- 모달 구조 -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <!-- 모달 구조 -->
+       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,206 +172,354 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id="modalContent">
-                    <p><strong>근태 ID:</strong> <input type="text" id="modalAttendanceId" class="form-control" /></p>
-                    <p><strong>출근 시간:</strong> <input type="text" id="modalCheckInInput" class="form-control" /></p>
-                    <p><strong>퇴근 시간:</strong> <input type="text" id="modalCheckOutInput" class="form-control" /></p>
-                    <p><strong>외출 시간:</strong> <input type="text" id="modalWorkingOutsideTimeInput" class="form-control" /></p>
-                    <p><strong>복귀 시간:</strong> <input type="text" id="modalReturnTimeInput" class="form-control" /></p>
-                    <p><strong>근무 시간:</strong> <input type="text" id="modalWorkingTimeInput" class="form-control" /></p>
-                    <p><strong>야근 시간:</strong> <input type="text" id="modalNightWorkTimeInput" class="form-control" /></p>
-                    <p><strong>특별 근무 시간:</strong> <input type="text" id="modalSpecialWorkingTimeInput" class="form-control" /></p>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="modified_reason">수정 이유:</label>
-                    <input type="text" class="form-control" id="modified_reason" placeholder="수정 이유를 입력하세요">
-                </div>
-                <!-- 수정 완료 메시지 -->
-                <div id="successMessage" class="alert alert-success" style="display: none;">
-                    수정이 완료되었습니다.
-                </div>
-            </div>
+               <div class="modal-body">
+			                   <input type="hidden" id="modalAttendanceId" /> <!-- 근태 ID -->
+		                <div class="form-group">
+		                    <label for="modalEmpId">사원번호</label>
+		                    <input type="text" class="form-control" id="modalEmpId" placeholder="EMP ID를 입력하세요" readonly/> <!-- EMP ID 추가 -->
+		                </div>
+                            <div class="form-group">
+                                <label for="modalCheckInInput">출근</label>
+                                <input type="text" class="form-control" id="modalCheckInInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCheckOutInput">퇴근</label>
+                                <input type="text" class="form-control" id="modalCheckOutInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalWorkingOutsideTimeInput">외출 시간</label>
+                                <input type="text" class="form-control" id="modalWorkingOutsideTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalReturnTimeInput">복귀 시간</label>
+                                <input type="text" class="form-control" id="modalReturnTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalWorkingTimeInput">근무 시간</label>
+                                <input type="text" class="form-control" id="modalWorkingTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalNightWorkTimeInput">야간 근무 시간</label>
+                                <input type="text" class="form-control" id="modalNightWorkTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalSpecialWorkingTimeInput">특별 근무 시간</label>
+                                <input type="text" class="form-control" id="modalSpecialWorkingTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalNewCheckInInput">출근 수정 시간</label>
+                                <input type="text" class="form-control" id="modalNewCheckInInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalNewCheckOutInput">퇴근 수정 시간</label>
+                                <input type="text" class="form-control" id="modalNewCheckOutInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalNewWorkingOutsideTimeInput">외출 수정 시간</label>
+                                <input type="text" class="form-control" id="modalNewWorkingOutsideTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalModifiedTimeInput">수정 일자</label>
+                                <input type="text" class="form-control" id="modalModifiedTimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCreatedAtInput">신청 일자</label>
+                                <input type="text" class="form-control" id="modalCreatedAtInput" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalStatusInput">상태</label>
+                                <input type="text" class="form-control" id="modalStatusInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalOvertimeInput">초과 근무</label>
+                                <input type="text" class="form-control" id="modalOvertimeInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalModifiedReasonInput">수정 사유</label>
+                                <input type="text" class="form-control" id="modalModifiedReasonInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalModifiedPersonInput">수정자</label>
+                                <input type="text" class="form-control" id="modalModifiedPersonInput">
+                            </div>
+                            
+		                               <div class="form-group">
+		                    <label for="modalWorkStatusInput">근무 상태</label>
+		                    <input type="text" class="form-control" id="modalWorkStatusInput" placeholder="근무 상태를 입력하세요" /> <!-- 근무 상태 추가 -->
+		                </div>
+                            
+                        </form>
+                        <div id="successMessage" class="alert alert-success" style="display: none;">수정 완료</div>
+                    </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="saveChangesButton">변경 저장</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
 </div>
+    <script>
+    $(document).ready(function() {
+        var currentPage = 1; // 현재 페이지 번호
+        var itemsPerPage = 10; // 페이지 당 아이템 수
 
-<script>
-$(document).ready(function() {
-    var currentPage = 1; // 현재 페이지 번호
-    var itemsPerPage = 10; // 페이지 당 아이템 수
+        function loadAttendanceData(page) {
+            var empId = $("#emp_id").val(); // 입력된 사원 ID 가져오기
 
-    function loadAttendanceData(page) {
-        var empId = $("#emp_id").val(); // 입력된 사원 ID 가져오기
+            // AJAX 요청
+            $.ajax({
+                url: '/Attendance/attendanceData', // 요청 URL
+                type: 'POST',
+                data: { 
+                    emp_id: empId, 
+                    page: page,
+                    size: itemsPerPage
+                },
+                success: function(response) {
+                    var data = response.data;
+                    var totalItems = response.totalItems;
+                    var totalPages = Math.ceil(totalItems / itemsPerPage);
 
-        // AJAX 요청
-        $.ajax({
-            url: '/Attendance/attendanceData', // 요청 URL
-            type: 'POST',
-            data: { 
-                emp_id: empId, 
-                page: page,
-                size: itemsPerPage
-            },
-            success: function(response) {
-                var data = response.data;
-                var totalItems = response.totalItems;
-                var totalPages = Math.ceil(totalItems / itemsPerPage);
+                    $("#checkTimeList").empty(); // 기존 데이터 초기화
 
-                $("#checkTimeList").empty(); // 기존 데이터 초기화
+                    // 조회된 데이터를 테이블에 추가
+                    if (data.length > 0) {
+                        $.each(data, function(index, attendance) {
+                            $("#checkTimeList").append(
+                                    "<tr>" +
+                                    "<td>" + attendance.emp_id + "</td>" +
+                                    "<td>" + attendance.emp_cid + "</td>" +
+                                    "<td>" + attendance.check_in + "</td>" +
+                                    "<td>" + attendance.check_out + "</td>" +
+                                    "<td>" + attendance.workingoutside_time + "</td>" +
+                                    "<td>" + attendance.return_time + "</td>" +
+                                    "<td>" + attendance.working_time + "</td>" +
+                                    "<td>" + attendance.night_work_time + "</td>" +
+                                    "<td>" + attendance.special_working_time + "</td>" +
+                                    "<td>" + attendance.workform_status + "</td>" +
+                                    "<td>" + attendance.new_check_in + "</td>" +
+                                    "<td>" + attendance.new_check_out + "</td>" +
+                                    "<td>" + attendance.new_workingoutside_time + "</td>" +
+                                    "<td>" + attendance.modified_time + "</td>" +
+                                    "<td>" + attendance.created_at + "</td>" +
+                                    "<td>" + attendance.attendance_id + "</td>" +
+                                    "<td>" + attendance.status + "</td>" +
+                                    "<td>" + attendance.overtime + "</td>" +
+                                    "<td>" + attendance.modified_reason + "</td>" +
+                                    "<td>" + attendance.modified_person + "</td>" +
+                                    "<td><button class='btn btn-warning edit-button' data-id='" + attendance.attendance_id + "' " +
+                                    "data-emp-id='" + attendance.emp_id + "' " + // EMP ID 추가
+                                    "data-check-in='" + attendance.check_in + "' " +
+                                    "data-check-out='" + attendance.check_out + "' " +
+                                    "data-workingoutside-time='" + attendance.workingOutside_time + "' " +
+                                    "data-return-time='" + attendance.return_time + "' " +
+                                    "data-working-time='" + attendance.working_time + "' " +
+                                    "data-night-work-time='" + attendance.night_work_time + "' " +
+                                    "data-special-working-time='" + attendance.special_working_time + "' " +
+                                    "data-new-check-in='" + attendance.new_check_in + "' " +
+                                    "data-new-check-out='" + attendance.new_check_out + "' " +
+                                    "data-new-workingoutside-time='" + attendance.new_workingoutside_time + "' " +
+                                    "data-modified-time='" + attendance.modified_time + "' " +
+                                    "data-created-at='" + attendance.created_at + "' " +
+                                    "data-status='" + attendance.status + "' " +
+                                    "data-overtime='" + attendance.overtime + "' " +
+                                    "data-modified-reason='" + attendance.modified_reason + "' " +
+                                    "data-modified-person='" + attendance.modified_person + "' " +
+                                    "data-work-status='" + attendance.workform_status + "'>" + // 근무 상태 추가
+                                    "수정</button></td>" +
+                                    "<td>" +
+                                    "<button class='btn btn-danger delete-button' data-id='" + attendance.attendance_id + "' style='margin-left: 5px;'>삭제</button>" + // 수정 버튼 옆에 삭제 버튼 추가
+                	            	"</td>" +
+                                    
+                                    
+                                    "</tr>"
+                                );
+                            });
 
-                // 조회된 데이터를 테이블에 추가
-                if (data.length > 0) {
-                    $.each(data, function(index, attendance) {
-                        $("#checkTimeList").append(
-                            "<tr>" +
-                                "<td>" + attendance.emp_id + "</td>" +
-                                "<td>" + attendance.emp_cid + "</td>" +
-                                "<td>" + attendance.check_in + "</td>" +
-                                "<td>" + attendance.check_out + "</td>" +
-                                "<td>" + attendance.workingoutside_time + "</td>" +
-                                "<td>" + attendance.return_time + "</td>" +
-                                "<td>" + attendance.working_time + "</td>" +
-                                "<td>" + attendance.night_work_time + "</td>" +
-                                "<td>" + attendance.special_working_time + "</td>" +
-                                "<td>" + attendance.workform_status + "</td>" +
-                                "<td>" + attendance.new_check_in + "</td>" +
-                                "<td>" + attendance.new_check_out + "</td>" +
-                                "<td>" + attendance.new_workingoutside_time + "</td>" +
-                                "<td>" + attendance.modified_time + "</td>" +
-                                "<td>" + attendance.created_at + "</td>" +
-                                "<td>" + attendance.attendance_id + "</td>" +
-                                "<td>" + attendance.status + "</td>" +
-                                "<td>" + attendance.overtime + "</td>" +
-                                "<td>" + attendance.modified_reason + "</td>" +
-                                "<td>" + attendance.modified_person + "</td>" +
-                                "<td><button class='btn btn-warning edit-button' data-id='" + attendance.attendance_id + "' " +
-                                "data-check-in='" + attendance.check_in + "' " +
-                                "data-check-out='" + attendance.check_out + "' " +
-                                "data-workingoutside-time='" + attendance.workingoutside_time + "' " +
-                                "data-return-time='" + attendance.return_time + "' " +
-                                "data-working-time='" + attendance.working_time + "' " +
-                                "data-night-work-time='" + attendance.night_work_time + "' " +
-                                "data-special-working-time='" + attendance.special_working_time + "'>수정</button></td>" +
-                            "</tr>"
-                        );
-                    });
-
-                    // 페이징 버튼 업데이트
-                    updatePagination(totalPages);
-                } else {
-                    $("#checkTimeList").append("<tr><td colspan='20'>조회된 시간이 없습니다.</td></tr>");
+                        // 페이징 버튼 업데이트
+                        updatePagination(totalPages);
+                    } else {
+                        $("#checkTimeList").append("<tr><td colspan='20'>조회된 시간이 없습니다.</td></tr>");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX 요청 실패:", status, error);
+                    $("#checkTimeList").append("<tr><td colspan='20'>시간 조회에 실패했습니다.</td></tr>");
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX 요청 실패:", status, error);
-                $("#checkTimeList").append("<tr><td colspan='20'>시간 조회에 실패했습니다.</td></tr>");
-            }
-        });
-    }
-
-    function updatePagination(totalPages) {
-        $("#pagination").empty(); // 기존 페이지 버튼 초기화
-
-        for (var i = 1; i <= totalPages; i++) {
-            $("#pagination").append(
-                "<li class='page-item " + (i === currentPage ? "active" : "") + "'>" +
-                    "<a class='page-link' href='#'>" + i + "</a>" +
-                "</li>"
-            );
+            });
         }
 
-        // 페이지 클릭 이벤트 추가
-        $(".page-link").click(function(e) {
-            e.preventDefault();
-            currentPage = parseInt($(this).text());
-            loadAttendanceData(currentPage);
+        function updatePagination(totalPages) {
+            $("#pagination").empty(); // 기존 페이지 버튼 초기화
+
+            for (var i = 1; i <= totalPages; i++) {
+                $("#pagination").append(
+                    "<li class='page-item " + (i === currentPage ? "active" : "") + "'>" +
+                        "<a class='page-link' href='#'>" + i + "</a>" +
+                    "</li>"
+                );
+            }
+
+            // 페이지 클릭 이벤트 추가
+            $(".page-link").click(function(e) {
+                e.preventDefault();
+                currentPage = parseInt($(this).text());
+                loadAttendanceData(currentPage);
+            });
+        }
+
+        $("#checkTimeButton").click(function() {
+            currentPage = 1; // 페이지를 1로 초기화
+            loadAttendanceData(currentPage); // 데이터 로드
         });
-    }
 
-    // 버튼 클릭 이벤트
-    $("#checkTimeButton").click(function() {
-        currentPage = 1; // 조회 시 첫 페이지부터 시작
-        loadAttendanceData(currentPage);
-    });
+        // 수정 버튼 클릭 이벤트
+        $(document).on('click', '.edit-button', function() {
+        	
+            // 모달에 기존 값 로드
+        $("#modalAttendanceId").val($(this).data("id"));
+        $("#modalEmpId").val($(this).data("emp-id")); // EMP ID
+        $("#modalCheckInInput").val($(this).data("check-in"));
+        $("#modalCheckOutInput").val($(this).data("check-out"));
+        $("#modalWorkingOutsideTimeInput").val($(this).data("workingoutside-time"));
+        $("#modalReturnTimeInput").val($(this).data("return-time"));
+        $("#modalWorkingTimeInput").val($(this).data("working-time"));
+        $("#modalNightWorkTimeInput").val($(this).data("night-work-time"));
+        $("#modalSpecialWorkingTimeInput").val($(this).data("special-working-time"));
+        $("#modalNewCheckInInput").val($(this).data("new-check-in"));
+        $("#modalNewCheckOutInput").val($(this).data("new-check-out"));
+        $("#modalNewWorkingOutsideTimeInput").val($(this).data("new-workingoutside-time"));
+        $("#modalModifiedTimeInput").val($(this).data("modified-time"));
+        $("#modalCreatedAtInput").val($(this).data("created-at"));
+        $("#modalStatusInput").val($(this).data("status"));
+        $("#modalOvertimeInput").val($(this).data("overtime"));
+        $("#modalModifiedReasonInput").val($(this).data("modified-reason"));
+        $("#modalModifiedPersonInput").val($(this).data("modified-person"));
+        $("#modalWorkformStatusInput").val($(this).data("workform-status")); // 근무 상태 추가
+        
+            $("#successMessage").hide(); // 수정 완료 메시지 숨김
+            $("#editModal").modal("show"); // 모달 열기
+        });
+		
+        // 변경 저장 버튼 클릭 이벤트
+        $("#saveChangesButton").click(function() {
+        	   var attendanceId = $("#modalAttendanceId").val();
+        	   var empId = $("#modalEmpId").val(); // EMP ID 추가
+               var checkIn = $("#modalCheckInInput").val();
+               var checkOut = $("#modalCheckOutInput").val();
+               var workingOutsideTime = $("#modalWorkingOutsideTimeInput").val();
+               var returnTime = $("#modalReturnTimeInput").val();
+               var workingTime = $("#modalWorkingTimeInput").val();
+               var nightWorkTime = $("#modalNightWorkTimeInput").val();
+               var specialWorkingTime = $("#modalSpecialWorkingTimeInput").val();
+               var newCheckIn = $("#modalNewCheckInInput").val();
+               var newCheckOut = $("#modalNewCheckOutInput").val();
+               var newWorkingOutsideTime = $("#modalNewWorkingOutsideTimeInput").val();
+               var modifiedTime = $("#modalModifiedTimeInput").val();
+               var createdAt = $("#modalCreatedAtInput").val();
+               var status = $("#modalStatusInput").val();
+               var overtime = $("#modalOvertimeInput").val();
+               var modifiedReason = $("#modalModifiedReasonInput").val();
+               var modifiedPerson = $("#modalModifiedPersonInput").val();
+               var workformStatus = $("#modalWorkformStatusInput").val(); // 근무 상태 추가
+            // AJAX 요청
+           		$.ajax({
+					    url: '/Attendance/updateAttendance', // 수정 요청 URL
+					    type: 'POST',
+					    contentType: 'application/json', // JSON 형식으로 보낼 것을 명시
+					    dataType: 'json', // 서버로부터 JSON 형식의 응답을 기대
+					    data: JSON.stringify({
+					        attendance_id: attendanceId,
+					        emp_id: empId, // EMP ID 추가
+					        check_in: checkIn,
+					        check_out: checkOut,
+					        WorkingOutside_time: workingOutsideTime,
+					        return_time: returnTime,
+					        working_time: workingTime,
+					        night_work_time: nightWorkTime,
+					        special_working_time: specialWorkingTime,
+					        new_check_in: newCheckIn,
+					        new_check_out: newCheckOut,
+					        new_WorkingOutside_time: newWorkingOutsideTime,
+					        modified_time: modifiedTime,
+					        created_at: createdAt,
+					        status: status,
+					        overtime: overtime,
+					        modified_reason: modifiedReason,
+					        modified_person: modifiedPerson,
+					        workform_status: workformStatus // 근무 상태 추가
+					    }),
+                success: function(response) {
+                    if (response.success) {
+                        $("#successMessage").show(); // 성공 메시지 표시
+                        loadAttendanceData(currentPage); // 데이터 다시 로드
+                    } else {
+                        alert("수정 실패: " + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX 요청 실패:", status, error);
+                    loadAttendanceData(currentPage); 
+                    alert("근태 정보가 수정되었습니다.");
+                }
+            });
 
-    // 수정 버튼 클릭 이벤트
-    $(document).on("click", ".edit-button", function() {
-        // 클릭한 버튼의 데이터 속성에서 값 가져오기
-        var attendanceId = $(this).data("id");
-        var checkIn = $(this).data("check-in");
-        var checkOut = $(this).data("check-out");
-        var workingOutsideTime = $(this).data("workingoutside-time");
-        var returnTime = $(this).data("return-time");
-        var workingTime = $(this).data("working-time");
-        var nightWorkTime = $(this).data("night-work-time");
-        var specialWorkingTime = $(this).data("special-working-time");
+        });
+	
+     // 삭제 버튼 클릭 이벤트
+        $(document).on('click', '.delete-button', function() {
+            var attendanceId = $(this).data("id");
 
-        // 모달에 값 설정
-        $("#modalAttendanceId").val(attendanceId);
-        $("#modalCheckInInput").val(checkIn);
-        $("#modalCheckOutInput").val(checkOut);
-        $("#modalWorkingOutsideTimeInput").val(workingOutsideTime);
-        $("#modalReturnTimeInput").val(returnTime);
-        $("#modalWorkingTimeInput").val(workingTime);
-        $("#modalNightWorkTimeInput").val(nightWorkTime);
-        $("#modalSpecialWorkingTimeInput").val(specialWorkingTime);
-
-        // 모달 열기
-        $("#editModal").modal("show");
-    });
-
-    // 변경 저장 버튼 클릭 이벤트
-    $("#saveChangesButton").click(function() {
-        // 수정할 데이터 가져오기
-        var attendanceId = $("#modalAttendanceId").val();
-        var checkIn = $("#modalCheckInInput").val();
-        var checkOut = $("#modalCheckOutInput").val();
-        var workingOutsideTime = $("#modalWorkingOutsideTimeInput").val();
-        var returnTime = $("#modalReturnTimeInput").val();
-        var workingTime = $("#modalWorkingTimeInput").val();
-        var nightWorkTime = $("#modalNightWorkTimeInput").val();
-        var specialWorkingTime = $("#modalSpecialWorkingTimeInput").val();
-        var modified_reason = $("modified_reason").val(); // 수정 이유 추가
-
-        // AJAX 요청
-        $.ajax({
-            url: '/Attendance/updateAttendance', // 요청 URL
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ // JSON 형식으로 데이터 전송
-                attendance_id: attendanceId,
-                check_in: checkIn,
-                check_out: checkOut,
-                workingoutside_time: workingOutsideTime,
-                return_time: returnTime,
-                working_time: workingTime,
-                night_work_time: nightWorkTime,
-                special_working_time: specialWorkingTime,
-                modified_reason: modified_reason // 수정 이유 추가
-            }),
-            success: function(response) {
-                $("#editModal").modal("hide"); // 모달 닫기
-                $("#successMessage").show(); // 성공 메시지 표시
-                loadAttendanceData(currentPage); // 데이터 재조회
-                setTimeout(function() {
-                    $("#successMessage").hide(); // 성공 메시지 숨기기
-                }, 3000);
-            },
-            error: function(xhr, status, error) {
-                console.error("수정 요청 실패:", status, error);
-                alert("수정 요청에 실패했습니다.");
+            // 삭제 확인
+            if (confirm("정말로 이 항목을 삭제하시겠습니까?")) {
+                // AJAX 요청
+                $.ajax({
+                    url: '/Attendance/deleteAttendance', // 삭제 요청 URL
+                    type: 'POST',
+                    data: {
+                        attendance_id: attendanceId
+                    },
+                    success: function(response) {
+                        // 삭제 성공 시
+                        alert("삭제되었습니다.");
+                        loadAttendanceData(currentPage); // 데이터 재로딩
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX 요청 실패:", status, error);
+                        alert("삭제 중 오류가 발생했습니다.");
+                    }
+                });
             }
         });
+     
+     
+     
+     
+        
+        // 닫기 버튼 클릭 시 모달 닫기
+        $('.btn-secondary').on('click', function() {
+            $("#editModal").modal('hide'); // 모달을 닫는 코드
+        });
+     
     });
-});
-</script>
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </script>
 
-
+	
+	
+	
+	
+	
+	
 
 
 
@@ -414,6 +578,10 @@ $(document).ready(function() {
 </script>
 
 
+                    
+   </div>
+                  <div class="card-body">
+                    
 <!------------------------------------------------------------------------------------------------------------------>
           </div>
           <!-- page-inner -->

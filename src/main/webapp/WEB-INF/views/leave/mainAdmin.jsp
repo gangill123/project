@@ -6,6 +6,13 @@
 <meta charset="UTF-8"> <!-- 한글 인코딩 추가 -->
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+   
+   
+   
+   
   <title>근태관리</title>
   <style>
     .container {
@@ -82,53 +89,121 @@
           <div class="page-inner">
 <!------------------------------------------------------------------------------------------------------------------>
 
-<div class="mt-5" style="margin: 0; padding: 0;">
-    <h1>사원 휴가 관리</h1>
-    <input type="text" id="emp_id" placeholder="사원 ID를 입력하세요" />
-    <button id="checkLeavesButton" class="btn btn-info">사원 휴가 조회</button>
+  <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">근태관리</div>
+               
 
-    <!-- 사원 휴가 데이터 테이블 -->
-    <div id="leaveData">
-        <table id="checkLeaveTable" class="table mt-3">
-            <thead>
-                <tr>
-                    <th>휴가 ID</th>
-                    <th>사원 ID</th>
-                    <th>휴가 유형</th>
-                    <th>휴가 시작일</th>
-                    <th>휴가 종료일</th>
-                    <th>휴가 일수</th>
-                    <th>연차 시작일</th>
-                    <th>연차 종료일</th>
-                    <th>총 연차 일수</th>
-                    <th>사용된 연차 일수</th>
-                    <th>잔여 연차 일수</th>
-                    <th>상태</th>
-                    <th>신청 사유</th>
-                    <th>신청 날짜</th>
-                    <th>승인 날짜</th>
-                    <th>수정 이유</th>
-                    <th>수정인</th>
-                    <th>수정</th>
-                </tr>
-            </thead>
-            <tbody id="checkLeaveList">
-                <!-- 조회된 데이터가 여기에 삽입됩니다 -->
-            </tbody>
-        </table>
-	         <!-- 페이징 영역 -->
-	    <nav aria-label="Page navigation">
-	        <ul id="pagination" class="pagination">
-	            <!-- 페이지 번호가 동적으로 생성됩니다. -->
-	        </ul>
-	    </nav>
-	</div>
-        
+<div class="card-body">
+    <div class="table-responsive">
+        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="basic-datatables_length">
+                        <label>Show
+                            <select name="basic-datatables_length" aria-controls="basic-datatables" class="form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            entries
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="basic-datatables_filter" class="dataTables_filter">
+                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="basic-datatables"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- 새로운 사원 휴가 관리 테이블 -->
+                    <div class="mt-5" style="margin: 0; padding: 0;">
+                        <h1>사원 휴가 관리</h1>
+                        <input type="text" id="emp_id" placeholder="사원 ID를 입력하세요" />
+                        <button id="checkLeavesButton" class="btn btn-info">사원 휴가 조회</button>
+
+                        <!-- 사원 휴가 데이터 테이블 -->
+                        <div id="leaveData">
+                            <table id="checkLeaveTable" class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>휴가 ID</th>
+                                        <th>사원 ID</th>
+                                        <th>휴가 유형</th>
+                                        <th>휴가 시작일</th>
+                                        <th>휴가 종료일</th>
+                                        <th>신청한 휴가 일수</th>                                        
+                                 		<th>총 휴가 일수</th>
+                                 		<th>사용된 휴가 일수</th>
+                                 		<th>남은 휴가 일수</th>
+                                  		<th>연차 시작일</th>
+                                        <th>연차 종료일</th>
+                                        <th>총 연차 일수</th>
+                                        <th>사용된 연차 일수</th>
+                                        <th>잔여 연차 일수</th>
+                                        <th>상태</th>
+                                        <th>신청 사유</th>
+                                        <th>신청 날짜</th>
+                                        <th>승인 날짜</th>
+                                        <th>수정</th>
+                                        <th>삭제</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="checkLeaveList">
+                                    <!-- 조회된 데이터가 여기에 삽입됩니다 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info" id="basic-datatables_info" role="status" aria-live="polite">
+                        Showing 1 to 10 of 57 entries
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="basic-datatables_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled" id="basic-datatables_previous">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                            </li>
+                            <li class="paginate_button page-item active">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="4" tabindex="0" class="page-link">4</a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="5" tabindex="0" class="page-link">5</a>
+                            </li>
+                            <li class="paginate_button page-item ">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="6" tabindex="0" class="page-link">6</a>
+                            </li>
+                            <li class="paginate_button page-item next" id="basic-datatables_next">
+                                <a href="#" aria-controls="basic-datatables" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
  
-    
-    <!-- 페이징 버튼 -->
-    <ul id="pagination" class="pagination justify-content-center"></ul>
-
     <!-- 성공 메시지 -->
     <div id="successMessage" class="alert alert-success" style="display:none;">수정이 완료되었습니다.</div>
 
@@ -144,50 +219,91 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="modalLeaveId">
-                    <div class="form-group">
+                    
+                       <div class="form-group">
                         <label for="modalLeaveTypeInput">휴가 유형</label>
-                        <input type="text" id="modalLeaveTypeInput" class="form-control">
+                        <select id="modalLeaveTypeInput" class="form-control" name="leaveType" required>
+                            <option value="" disabled selected>휴가 유형 선택</option>
+                            <option value="연차">연차</option>
+                            <option value="병가">병가</option>
+                            <option value="출산휴가">출산휴가</option>
+                            <option value="예비군">예비군</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="modalLeaveStartDateInput">휴가 시작일</label>
-                        <input type="date" id="modalLeaveStartDateInput" class="form-control">
+                    
+                    
+                    
+						                  <div class="form-group">
+						    <label for="modalLeaveStartDateInput">휴가 시작일</label>
+						    <input type="date" id="modalLeaveStartDateInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalEndLeaveDateInput">휴가 종료일</label>
+						    <input type="date" id="modalEndLeaveDateInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalTLeaveInput">신청한 휴가 일수</label>
+						    <input type="number" id="modalTLeaveInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalTotalLeaveDaysInput">총 휴가 일수</label>
+						    <input type="number" id="modalTotalLeaveDaysInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalUsedLeaveInput">사용된 휴가 일수</label>
+						    <input type="number" id="modalUsedLeaveInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalRemainingLeaveInput">남은 휴가 일수</label>
+						    <input type="number" id="modalRemainingLeaveInput" class="form-control">
+						</div>
+						
+						<div class="form-group">
+						    <label for="modalAnnualLeaveStartDateInput">연차 시작일</label>
+						    <input type="date" id="modalAnnualLeaveStartDateInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalEndAnnualLeaveInput">연차 종료일</label>
+						    <input type="date" id="modalEndAnnualLeaveInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalTotalAnnualLeaveInput">총 연차 일수</label>
+						    <input type="number" id="modalTotalAnnualLeaveInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalUsedAnnualLeaveInput">사용된 연차 일수</label>
+						    <input type="number" id="modalUsedAnnualLeaveInput" class="form-control">
+						</div>
+						<div class="form-group">
+						    <label for="modalRemainingAnnualLeaveInput">잔여 연차 일수</label>
+						    <input type="number" id="modalRemainingAnnualLeaveInput" class="form-control">
+						</div>
+
+                    
+                    
+                    
+                        <div class="form-group">
+                        <label for="modalLeaveStatusInput">상태</label>
+                        <select class="form-control" id="modalLeaveStatusInput" name="status">
+                            <option value="승인">승인</option>
+                            <option value="반려">반려</option>
+                            <option value="진행중">진행중</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="modalEndLeaveDateInput">휴가 종료일</label>
-                        <input type="date" id="modalEndLeaveDateInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalTLeaveInput">휴가 일수</label>
-                        <input type="number" id="modalTLeaveInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalAnnualLeaveStartDateInput">연차 시작일</label>
-                        <input type="date" id="modalAnnualLeaveStartDateInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalEndAnnualLeaveInput">연차 종료일</label>
-                        <input type="date" id="modalEndAnnualLeaveInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalTotalAnnualLeaveInput">총 연차 일수</label>
-                        <input type="number" id="modalTotalAnnualLeaveInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalUsedAnnualLeaveInput">사용된 연차 일수</label>
-                        <input type="number" id="modalUsedAnnualLeaveInput" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="modalRemainingAnnualLeaveInput">잔여 연차 일수</label>
-                        <input type="number" id="modalRemainingAnnualLeaveInput" class="form-control">
-                    </div>
+                    
+                    
+                    
                     <div class="form-group">
                         <label for="modalReasonInput">신청 사유</label>
                         <input type="text" id="modalReasonInput" class="form-control">
                     </div>
+                                   
+                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    
                     <button id="saveChangesButton" type="button" class="btn btn-primary">변경 저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
@@ -197,11 +313,9 @@
 
 <script>
 $(document).ready(function() {
-    var currentPage = 1; // 현재 페이지 번호
-    var itemsPerPage = 10; // 페이지 당 아이템 수
-
+	
     // 휴가 데이터 로드 함수
-    function loadLeaveData(page) {
+    function loadLeaveData() {
         var empId = $("#emp_id").val(); // 입력된 사원 ID 가져오기
 
         // AJAX 요청
@@ -209,9 +323,7 @@ $(document).ready(function() {
             url: 'leaveSelect', // 요청 URL
             type: 'GET',
             data: { 
-                emp_id: empId,
-                page: page,
-                size: itemsPerPage
+                emp_id: empId
             },
             success: function(response) {
                 var leaves = response; // 조회된 데이터
@@ -220,79 +332,63 @@ $(document).ready(function() {
                 // 조회된 데이터를 테이블에 추가
                 if (leaves.length > 0) {
                     $.each(leaves, function(index, leave) {
-                        $("#checkLeaveList").append(
-                            "<tr>" +
-                                "<td>" + leave.leave_id + "</td>" +
-                                "<td>" + leave.emp_id + "</td>" +
-                                "<td>" + leave.leave_type + "</td>" +
-                                "<td>" + leave.leave_start_date + "</td>" +
-                                "<td>" + leave.end_leave_date + "</td>" +
-                                "<td>" + leave.t_leave + "</td>" +
-                                "<td>" + leave.annual_leave_start_date + "</td>" +
-                                "<td>" + leave.end_annual_leave + "</td>" +
-                                "<td>" + leave.total_annual_leave + "</td>" +
-                                "<td>" + leave.used_annual_leave + "</td>" +
-                                "<td>" + leave.remaining_annual_leave + "</td>" +
-                                "<td>" + leave.leave_status + "</td>" +
-                                "<td>" + leave.reason + "</td>" +
-                                "<td>" + leave.requested_at + "</td>" +
-                                "<td>" + leave.approval_date + "</td>" +
-                                "<td>" + (leave.modified_reason ? leave.modified_reason : "") + "</td>" +
-                                "<td>" + (leave.modified_by ? leave.modified_by : "") + "</td>" +
-                                "<td><button class='btn btn-warning edit-button' data-id='" + leave.leave_id + "' " +
-                                "data-leave-type='" + leave.leave_type + "' " +
-                                "data-leave-start-date='" + leave.leave_start_date + "' " +
-                                "data-end-leave-date='" + leave.end_leave_date + "' " +
-                                "data-t-leave='" + leave.t_leave + "' " +
-                                "data-annual-leave-start-date='" + leave.annual_leave_start_date + "' " +
-                                "data-end-annual-leave='" + leave.end_annual_leave + "' " +
-                                "data-total-annual-leave='" + leave.total_annual_leave + "' " +
-                                "data-used-annual-leave='" + leave.used_annual_leave + "' " +
-                                "data-remaining-annual-leave='" + leave.remaining_annual_leave + "' " +
-                                "data-reason='" + leave.reason + "'>수정</button></td>" +
-                            "</tr>"
+                    	   $("#checkLeaveList").append(
+                    	            "<tr>" +
+                    	            "<td>" + leave.leave_id + "</td>" +
+                    	            "<td>" + leave.emp_id + "</td>" +
+                    	            "<td>" + leave.leave_type + "</td>" +
+                    	            "<td>" + leave.leave_start_date + "</td>" +
+                    	            "<td>" + leave.end_leave_date + "</td>" +
+                    	            "<td>" + leave.t_leave + "</td>" +
+                    	            
+                    	            "<td>" + leave.total_leave_days + "</td>" +
+                    	            "<td>" + leave.used_leave + "</td>" +
+                    	            "<td>" + leave.remaining_leave + "</td>" +
+                    	            
+                    	            "<td>" + leave.annual_leave_start_date + "</td>" +
+                    	            "<td>" + leave.end_annual_leave + "</td>" +
+                    	            "<td>" + leave.total_annual_leave + "</td>" +
+                    	            "<td>" + leave.used_annual_leave + "</td>" +
+                    	            "<td>" + leave.remaining_annual_leave + "</td>" +
+                    	            "<td>" + leave.leave_status + "</td>" + // 
+                    	            "<td>" + leave.reason + "</td>" +
+                    	            "<td>" + leave.requested_at + "</td>" +
+                    	            "<td>" + leave.approval_date + "</td>" +                  	            
+                    	            
+                    	            
+                    	            "<td><button class='btn btn-warning edit-button' data-id='" + leave.leave_id + "' " +
+                    	            "data-leave-type='" + leave.leave_type + "' " +
+                    	            "data-leave-start-date='" + leave.leave_start_date + "' " +
+                    	            "data-end-leave-date='" + leave.end_leave_date + "' " +
+                    	            "data-total-leave-days='" + leave.total_leave_days + "' " + // 총 휴가일수 추가
+                    	            "data-used-leave='" + leave.used_leave + "' " + // 사용된 휴가일수 추가
+                    	            "data-remaining-leave='" + leave.remaining_leave + "' " + // 남은 휴가일수 추가
+                    	            "data-t-leave='" + leave.t_leave + "' " +
+                    	            "data-annual-leave-start-date='" + leave.annual_leave_start_date + "' " +
+                    	            "data-end-annual-leave='" + leave.end_annual_leave + "' " +
+                    	            "data-total-annual-leave='" + leave.total_annual_leave + "' " +
+                    	            "data-used-annual-leave='" + leave.used_annual_leave + "' " +
+                    	            "data-remaining-annual-leave='" + leave.remaining_annual_leave + "' " +
+                    	            "data-leave-status='" + leave.leave_status + "' " + 
+                    	            "data-reason='" + leave.reason + "' " +                  	            
+                    	            ">수정</button>" +
+                    	            "</td>" +
+                    	            "<td>" +
+                    	                "<button type='button' class='btn btn-warning delete-button' data-id='" + leave.leave_id + "'>삭제</button>" +
+                    	            "</td>" +
+                    	            "</tr>"
                         );
                     });
                 } else {
                     $("#checkLeaveList").append("<tr><td colspan='17'>조회된 데이터가 없습니다.</td></tr>");
                 }
-                setupPagination(response.totalElements, page); // 페이지 설정
             }
         });
     }
 
-    // 페이지 설정 함수
-    function setupPagination(totalItems, currentPage) {
-        var totalPages = Math.ceil(totalItems / itemsPerPage);
-        $("#pagination").empty(); // 기존 페이지 초기화
-
-        // 이전 버튼
-        if (currentPage > 1) {
-            $("#pagination").append('<li class="page-item"><a class="page-link" href="#" data-page="' + (currentPage - 1) + '">이전</a></li>');
-        }
-
-        // 페이지 번호 버튼
-        for (var i = 1; i <= totalPages; i++) {
-            $("#pagination").append('<li class="page-item ' + (i === currentPage ? 'active' : '') + '"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
-        }
-
-        // 다음 버튼
-        if (currentPage < totalPages) {
-            $("#pagination").append('<li class="page-item"><a class="page-link" href="#" data-page="' + (currentPage + 1) + '">다음</a></li>');
-        }
-    }
-
     // 버튼 클릭 시 휴가 조회
     $("#checkLeavesButton").click(function() {
-        currentPage = 1; // 페이지 초기화
-        loadLeaveData(currentPage); // 데이터 로드
-    });
-
-    // 페이지 번호 클릭 시 데이터 로드
-    $(document).on('click', '#pagination .page-link', function(e) {
-        e.preventDefault();
-        currentPage = $(this).data('page'); // 클릭한 페이지 번호로 설정
-        loadLeaveData(currentPage); // 데이터 로드
+        loadLeaveData(); // 데이터 로드
     });
 
     // 수정 버튼 클릭 시 모달에 데이터 설정
@@ -301,14 +397,23 @@ $(document).ready(function() {
         $("#modalLeaveTypeInput").val($(this).data('leave-type'));
         $("#modalLeaveStartDateInput").val($(this).data('leave-start-date'));
         $("#modalEndLeaveDateInput").val($(this).data('end-leave-date'));
+        
         $("#modalTLeaveInput").val($(this).data('t-leave'));
+        // 추가된 부분
+        $("#modalTotalLeaveDaysInput").val($(this).data('total-leave-days')); // 총 휴가일수
+        $("#modalUsedLeaveInput").val($(this).data('used-leave')); // 사용된 휴가일수
+        $("#modalRemainingLeaveInput").val($(this).data('remaining-leave')); // 남은 휴가일수
+
         $("#modalAnnualLeaveStartDateInput").val($(this).data('annual-leave-start-date'));
         $("#modalEndAnnualLeaveInput").val($(this).data('end-annual-leave'));
         $("#modalTotalAnnualLeaveInput").val($(this).data('total-annual-leave'));
         $("#modalUsedAnnualLeaveInput").val($(this).data('used-annual-leave'));
         $("#modalRemainingAnnualLeaveInput").val($(this).data('remaining-annual-leave'));
+        $("#modalLeaveStatusInput").val($(this).data('leave-status'));
         $("#modalReasonInput").val($(this).data('reason'));
+ 
         $("#editModal").modal('show'); // 모달 열기
+       
     });
 
     // 모달에서 변경 저장 버튼 클릭 시
@@ -320,11 +425,15 @@ $(document).ready(function() {
             leave_start_date: $("#modalLeaveStartDateInput").val(),
             end_leave_date: $("#modalEndLeaveDateInput").val(),
             t_leave: $("#modalTLeaveInput").val(),
+            total_leave_days: $("#modalTotalLeaveDaysInput").val(), // 총 휴가 일수
+            used_leave: $("#modalUsedLeaveInput").val(), // 사용된 휴가 일수
+            remaining_leave: $("#modalRemainingLeaveInput").val(), // 남은 휴가 일수
             annual_leave_start_date: $("#modalAnnualLeaveStartDateInput").val(),
             end_annual_leave: $("#modalEndAnnualLeaveInput").val(),
             total_annual_leave: $("#modalTotalAnnualLeaveInput").val(),
             used_annual_leave: $("#modalUsedAnnualLeaveInput").val(),
             remaining_annual_leave: $("#modalRemainingAnnualLeaveInput").val(),
+            leave_status: $("#modalLeaveStatusInput").val(),
             reason: $("#modalReasonInput").val()
         };
 
@@ -337,21 +446,72 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     $("#successMessage").show().delay(3000).fadeOut(); // 성공 메시지 표시
-                    loadLeaveData(currentPage); // 데이터 새로 고침
-                    $("#editModal").modal('hide'); // 모달 닫기
+                    loadLeaveData(); // 데이터 새로 고침
+                   
                 } else {
                     alert("수정에 실패했습니다. 다시 시도하세요.");
                 }
             },
             error: function(xhr, status, error) {
-            	 console.error("Error details: ", xhr.responseText); // 서버에서 반환한 오류 메시지
-            	    alert("오류가 발생했습니다. 다시 시도하세요.");
+                console.error("Error details: ", xhr.responseText); // 서버에서 반환한 오류 메시지
+                alert("오류가 발생했습니다. 다시 시도하세요.");
             }
         });
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 삭제 버튼 클릭 시 데이터 삭제
+    $(document).on('click', '.delete-button', function() {
+        var leaveId = $(this).data('id'); // 삭제할 휴가 ID
+
+        // 사용자에게 확인 메시지 표시
+        if (confirm("이 휴가를 정말 삭제하시겠습니까?")) {
+            $.ajax({
+                url: 'leaveDelete?leave_id=' + leaveId, // 삭제 요청 URL
+                type: 'POST',
+                success: function(response) {
+                    if (response.success) {
+                        $("#successMessage").show().delay(3000).fadeOut(); // 성공 메시지 표시
+                        loadLeaveData(); // 데이터 새로 고침
+                    } else {
+                        alert("휴가 정보를 삭제 완료 했습니다.");
+                        loadLeaveData(); // 데이터 새로 고침
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error details: ", xhr.responseText); // 서버에서 반환한 오류 메시지
+                    alert("오류가 발생했습니다. 다시 시도하세요.");
+                }
+            });
+        }
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 닫기 버튼 클릭 시 모달 닫기
+    $('.btn-secondary').on('click', function() {
+        $("#editModal").modal('hide'); // 모달을 닫는 코드
     });
 });
 </script>
 
+
+   </div>
+                  <div class="card-body">
+                    
 
 <!------------------------------------------------------------------------------------------------------------------>
           </div>
